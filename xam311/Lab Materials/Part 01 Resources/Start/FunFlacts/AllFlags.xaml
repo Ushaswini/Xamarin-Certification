@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FunFlacts.AllFlags"
+             Title="AllFlags">
+
+    <!--<ContentPage.Resources>
+        <ResourceDictionary>
+            <ToolbarItem x:Key="cancelEditButton" Text="Cancel" Clicked="OnEdit" Icon="ic_cancel.png"/>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>-->
+   
+
+    <!--<ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="editButton" Text="Edit" Clicked="OnEdit" IsDestructive="True" Icon="ic_edit.png"/>
+    </ContentPage.ToolbarItems>-->
+
+    <ListView x:Name="flagsList" 
+              SelectedItem="{Binding CurrentFlag, Mode=TwoWay}"
+              ItemsSource="{Binding Flags}">
+        <!--ItemSelected="flagsList_ItemSelected"-->
+              
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ImageCell DetailColor="Gray"
+                           ImageSource="{Binding ImageUrl, Mode=OneWay,Converter={StaticResource irConverter}}"
+                            Text="{Binding Country}"
+                            Detail="{Binding DateAdopted, StringFormat='Adopted on {0:d}'}">
+                    <ImageCell.ContextActions>
+                        <MenuItem Text="Delete" Clicked="MenuItem_Clicked" IsDestructive="True"/>
+                    </ImageCell.ContextActions>
+                </ImageCell>
+
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</ContentPage>

@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MyContacts;assembly=MyContacts"
+             x:Class="MyContacts.AllContacts"
+             Title="Contacts"
+             Padding="5,0,5,5">
+
+    <ContentPage.Resources>
+      <ResourceDictionary>
+        <local:ImageResourceConverter x:Key="imageResourceCvt" />
+            <local:BirthdayConverter x:Key="birthdayCvt"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+  
+    <ContentPage.ToolbarItems>
+      <ToolbarItem x:Name="editButton" Text="Edit" Clicked="OnEdit" />
+    </ContentPage.ToolbarItems>
+
+  <ListView x:Name="allContacts" IsPullToRefreshEnabled="True"
+            Refreshing="OnRefreshing"
+            ItemTapped="OnItemTapped"
+            ItemSelected="OnItemSelected"
+            ItemsSource="{Binding .}"
+            Footer="{Binding Count}"
+            RowHeight="80">
+
+        <ListView.Header>
+            <ContentView Padding="0,5" BackgroundColor="#3498db">
+                <Label FontSize="Large" TextColor="White"
+                       Text="The Simpsons" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+            </ContentView>
+        </ListView.Header>
+      
+        <ListView.FooterTemplate>
+            <DataTemplate>
+                <ContentView Padding="0,5">
+                    <Label FontSize="Micro"
+                           Text="{Binding .,StringFormat='{0} contacts'}"
+                           VerticalTextAlignment="Center" HorizontalTextAlignment="End"/>
+                </ContentView>
+            </DataTemplate>
+        </ListView.FooterTemplate>
+      
+    <ListView.ItemTemplate>
+      <DataTemplate>
+                <ViewCell>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="75"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="{Binding HeadshotUrl, Converter={StaticResource imageResourceCvt}}" 
+                               WidthRequest="75"
+                               HeightRequest="75"
+                               Aspect="AspectFill"
+                               VerticalOptions="CenterAndExpand"/>
+                        <StackLayout Grid.Column="1">
+                            <Label Text="{Binding Name}"
+                                   FontSize="Medium"
+                                   FontAttributes="Bold"/>
+                            <Label Text="{Binding Email}"
+                                   FontSize="Small"
+                                   TextColor="Aqua"/>
+                        </StackLayout>
+                        <Image Source="star.png" Grid.Column="2"
+                               IsVisible="{Binding IsFavorite}"
+                               VerticalOptions="Center"
+                               HorizontalOptions="End"
+                               />
+                        <Label Text="{Binding Dob,Converter={StaticResource birthdayCvt },StringFormat='{0} yrs old'}"
+                               FontSize="Micro"
+                               TextColor="Aqua"
+                               Grid.Column="1"
+                               Grid.ColumnSpan="2"
+                               HorizontalOptions="End"
+                               VerticalOptions="End"/>
+
+                    </Grid>
+                    <ViewCell.ContextActions>
+                        <MenuItem Text="Delete" Clicked="OnDelete" IsDestructive="true" />
+                    </ViewCell.ContextActions>
+                </ViewCell>
+        <!--<ImageCell Text="{Binding Name}" 
+                   Detail="{Binding Email}" 
+                   DetailColor="Gray"
+                   ImageSource="{Binding HeadshotUrl, Converter={StaticResource imageResourceCvt}}">
+           <ImageCell.ContextActions>
+                
+           </ImageCell.ContextActions>
+        </ImageCell>-->
+      </DataTemplate>
+    </ListView.ItemTemplate>
+  </ListView>
+
+</ContentPage>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:FormsPractice"
+             x:Class="FormsPractice.MainPage"
+             BackgroundColor="White"
+             Title="Main Page">
+
+    <StackLayout BackgroundColor="White"
+                 Margin="60"
+                 VerticalOptions="Center">
+
+        <Entry x:Name="inputEntry"
+               BackgroundColor="Gray"/>
+
+        <Button Clicked="Button_Clicked" 
+                Text="Say Hello!" 
+                BackgroundColor="Green" 
+                TextColor="White"
+                Margin="0,20,0,20"/>
+
+        <Label x:Name="outputLabel" 
+               TextColor="Gray"
+               FontSize="60"/>
+        
+        <Button Text="Navigate to second page"
+                Clicked="NavigateButton_Clicked"
+                TextColor="White"
+                BackgroundColor="Green"
+                Margin="0,20,0,20"/>
+
+
+    </StackLayout>
+
+</ContentPage>

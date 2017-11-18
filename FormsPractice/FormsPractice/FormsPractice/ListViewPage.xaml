@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FormsPractice.ListViewPage"
+             xmlns:local="clr-namespace:FormsPractice"
+             Title="List Views in Forms"
+             BackgroundColor="White">
+
+    <ListView x:Name="mainListView"
+              HasUnevenRows="True">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <StackLayout Orientation="Vertical"
+                                 Margin="10"
+                                 Padding="10"
+                                 BackgroundColor="Purple">
+                        
+                        <Label Text="{Binding Name}"
+                               TextColor="White"
+                               FontSize="Large"
+                               FontAttributes="Bold"/>
+                        
+                        <Label Text="{Binding Age}"
+                               TextColor="White"
+                               FontAttributes="Italic"
+                               Opacity="0.6"/>
+                    </StackLayout>
+                </ViewCell>                
+            </DataTemplate>
+        </ListView.ItemTemplate>
+        
+    </ListView>
+</ContentPage>

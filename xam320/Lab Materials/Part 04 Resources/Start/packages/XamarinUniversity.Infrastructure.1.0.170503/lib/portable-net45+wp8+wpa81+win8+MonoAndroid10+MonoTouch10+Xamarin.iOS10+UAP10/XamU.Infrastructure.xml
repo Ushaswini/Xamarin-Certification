@@ -1,0 +1,1257 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>XamU.Infrastructure</name>
+    </assembly>
+    <members>
+        <member name="T:XamarinUniversity.Services.DependencyServiceWrapper">
+            <summary>
+            Wrapper around static Xamarin.Forms DependencyService to allow it to
+            be turned into a mockable interface for unit testing.
+            </summary>
+        </member>
+        <member name="M:XamarinUniversity.Services.DependencyServiceWrapper.#ctor">
+            <summary>
+            Constructor for the DS wrapper.
+            </summary>
+        </member>
+        <member name="M:XamarinUniversity.Services.DependencyServiceWrapper.Get``1">
+            <summary>
+            Retrieve a dependency based on the abstraction <typeparamref name="T"/>.
+            This extends the default DependencyService capability by allowing this method
+            to create types which are not registered but have a public constructor.
+            </summary>
+            <typeparam name="T">The 1st type parameter.</typeparam>
+        </member>
+        <member name="M:XamarinUniversity.Services.DependencyServiceWrapper.Register``1">
+            <summary>
+            Register a specific type as an abstraction
+            </summary>
+            <typeparam name="T">The type to register.</typeparam>
+        </member>
+        <member name="M:XamarinUniversity.Services.DependencyServiceWrapper.Register``2">
+            <summary>
+            Register a type along with an abstraction type.
+            </summary>
+            <typeparam name="T">Abstraction type</typeparam>
+            <typeparam name="TImpl">Type to create</typeparam>
+        </member>
+        <member name="M:XamarinUniversity.Services.DependencyServiceWrapper.Register``1(``0)">
+            <summary>
+            Register a specific instance with a type. This extends the
+            built-in DependencyService by allowing a specific instance to be registered.
+            </summary>
+            <typeparam name="T">Type to register</typeparam>
+            <param name="impl">Implementation</param>
+        </member>
+        <member name="T:XamarinUniversity.Services.FormsMessageVisualizerService">
+            <summary>
+            Wrapper around Page.DisplayAlert to turn it into a Message Visualizer 
+            service for Xamarin.Forms which can be used from a ViewModel and mocked
+            for Unit Testing.
+            </summary>
+        </member>
+        <member name="M:XamarinUniversity.Services.FormsMessageVisualizerService.ShowMessage(System.String,System.String,System.String,System.String)">
+            <summary>
+            Show a message using the Forms DisplayAlert method.
+            </summary>
+            <returns>The message.</returns>
+            <param name="title">Title.</param>
+            <param name="message">Message.</param>
+            <param name="ok">Ok.</param>
+            <param name="cancel">Cancel.</param>
+        </member>
+        <member name="T:XamarinUniversity.Services.FormsNavigationPageService">
+            <summary>
+            Service to manage the Xamarin.Forms Stack navigation system.
+            This understands both <c>NavigationPage</c> and <c>MasterDetailPage</c> with
+            an embedded navigation page.
+            </summary>
+        </member>
+        <member name="E:XamarinUniversity.Services.FormsNavigationPageService.Navigated">
+            <summary>
+            Event raised when NavigateAsync is used.
+            </summary>
+        </member>
+        <member name="E:XamarinUniversity.Services.FormsNavigationPageService.NavigatedBack">
+            <summary>
+            Event raised when a GoBackAsync operation occurs.
+            </summary>
+        </member>
+        <member name="M:XamarinUniversity.Services.FormsNavigationPageService.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Services.FormsNavigationPageService.KeyComparer">
+            <summary>
+            Allows you to change how keys are compared.
+            Must be called _before_ any pages are registered.
+            </summary>
+            <value>The key comparer.</value>
+        </member>
+        <member name="P:XamarinUniversity.Services.FormsNavigationPageService.HideMasterPageOnNavigation">
+            <summary>
+            This flag determines whether to hide the master page when a NavigateAsync
+            occurs. The default is TRUE for phones, but you can set this flag to FALSE 
+            to turn off this behavior.
+            </summary>
+            <value><c>true</c> if hide master page on navigation; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="M:XamarinUniversity.Services.FormsNavigationPageService.RegisterPage(System.Object,System.Func{Xamarin.Forms.Page})">
+            <summary>
+            Register a page with a known key.
+            </summary>
+            <param name="pageKey">Page key.</param>
+            <param name="creator">Creator.</param>
+        </member>
+        <member name="M:XamarinUniversity.Services.FormsNavigationPageService.RegisterAction(System.Object,System.Action{System.Object})">
+            <summary>
+            Registers an action in response to a navigation request.
+            </summary>
+            <param name="key">Key</param>
+            <param name="action">Action to perform, gets passed the viewModel parameter.</param>
+        </member>
+        <member name="M:XamarinUniversity.Services.FormsNavigationPageService.RegisterAction(System.Object,System.Action)">
+            <summary>
+            Registers an action in response to a navigation request.
+            </summary>
+            <param name="key">Key</param>
+            <param name="action">Action to perform</param>
+        </member>
+        <member name="M:XamarinUniversity.Services.FormsNavigationPageService.Unregister(System.Object)">
+            <summary>
+            Unregister a known page/action by key.
+            </summary>
+            <param name="key">Page key.</param>
+        </member>
+        <member name="M:XamarinUniversity.Services.FormsNavigationPageService.GetPageByKey(System.Object)">
+            <summary>
+            Locates a page creator by key.
+            </summary>
+            <returns>The page by key.</returns>
+            <param name="pageKey">Page key.</param>
+        </member>
+        <member name="M:XamarinUniversity.Services.FormsNavigationPageService.FindNavigationPage">
+            <summary>
+            Method used to locate the NavigationPage - looks either on the 
+            MainPage or, in the case of a MasterDetail setup, on the Details page.
+            </summary>
+            <returns>The navigation page.</returns>
+        </member>
+        <member name="P:XamarinUniversity.Services.FormsNavigationPageService.Navigation">
+            <summary>
+            Returns the underlying Navigation interface implemented by the
+            Forms page system.
+            </summary>
+            <value>The INavigation implementation to use for navigation.</value>
+        </member>
+        <member name="M:XamarinUniversity.Services.FormsNavigationPageService.OnPagePushed(System.Object,Xamarin.Forms.NavigationEventArgs)">
+            <summary>
+            Method called when a page is pushed onto the Navigation stack.
+            </summary>
+            <param name="sender">NavigationPage</param>
+            <param name="e">Details</param>
+        </member>
+        <member name="M:XamarinUniversity.Services.FormsNavigationPageService.OnPagePopped(System.Object,Xamarin.Forms.NavigationEventArgs)">
+            <summary>
+            Method called when a page is popped off the Navigation stack,
+            or when we pop to root.
+            </summary>
+            <param name="sender">NavigationPage</param>
+            <param name="e">Details</param>
+        </member>
+        <member name="M:XamarinUniversity.Services.FormsNavigationPageService.NavigateAsync(System.Object,System.Object)">
+            <summary>
+            Navigate to a page using the passed key. This also assigns the
+            BindingContext if a ViewModel is passed.
+            </summary>
+            <returns>Task representing the navigation</returns>
+            <param name="pageKey">Page key.</param>
+            <param name="viewModel">View model.</param>
+        </member>
+        <member name="P:XamarinUniversity.Services.FormsNavigationPageService.CanGoBack">
+            <summary>
+            True if we can go backwards on the navigation stack.
+            </summary>
+            <value><c>true</c> if can go back; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="M:XamarinUniversity.Services.FormsNavigationPageService.GoBackAsync">
+            <summary>
+            Pops the last page off the stack.
+            </summary>
+            <returns>Task representing the navigation event.</returns>
+        </member>
+        <member name="M:XamarinUniversity.Services.FormsNavigationPageService.PushModalAsync(System.Object,System.Object)">
+            <summary>
+            Pushes a new page modally onto the navigation stack.
+            </summary>
+            <returns>Task representing the modal navigation.</returns>
+            <param name="pageKey">Page key.</param>
+            <param name="viewModel">View model.</param>
+        </member>
+        <member name="M:XamarinUniversity.Services.FormsNavigationPageService.PopModalAsync">
+            <summary>
+            Pops a page off the modal stack.
+            </summary>
+            <returns>Task representing the navigation.</returns>
+        </member>
+        <member name="T:XamarinUniversity.Services.RegisterBehavior">
+            <summary>
+            Identifies which services you want to register during the Init call.
+            </summary>
+        </member>
+        <member name="F:XamarinUniversity.Services.RegisterBehavior.Navigation">
+            <summary>
+            Register the default (Forms) navigation service
+            </summary>
+        </member>
+        <member name="F:XamarinUniversity.Services.RegisterBehavior.MessageVisualizer">
+            <summary>
+            Register the default (Forms) message visualizer
+            </summary>
+        </member>
+        <member name="T:XamarinUniversity.Services.XamUInfrastructure">
+            <summary>
+            Static class to initialize the library
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Services.XamUInfrastructure.ServiceLocator">
+            <summary>
+            This allows you to retrieve and customize the global dependency service
+            used by the library (and app).
+            </summary>
+            <value>The service locator.</value>
+        </member>
+        <member name="M:XamarinUniversity.Services.XamUInfrastructure.Init">
+            <summary>
+            Registers the known services with the ServiceLocator type.
+            </summary>
+            <returns>IDependencyService</returns>
+        </member>
+        <member name="M:XamarinUniversity.Services.XamUInfrastructure.Init(XamarinUniversity.Interfaces.IDependencyService)">
+            <summary>
+            Register the known services with the ServiceLocator type.
+            </summary>
+            <param name="defaultLocator">Service locator</param>
+            <returns>IDependencyService</returns>
+        </member>
+        <member name="M:XamarinUniversity.Services.XamUInfrastructure.Init(XamarinUniversity.Services.RegisterBehavior)">
+            <summary>
+            Register the known services with the ServiceLocator type.
+            </summary>
+            <param name="registerBehavior">Services to register</param>
+            <returns>IDependencyService</returns>
+        </member>
+        <member name="M:XamarinUniversity.Services.XamUInfrastructure.Init(XamarinUniversity.Interfaces.IDependencyService,XamarinUniversity.Services.RegisterBehavior)">
+            <summary>
+            Registers the known services with the ServiceLocator type.
+            </summary>
+            <param name="defaultLocator">ServiceLocator, if null, DependencyService is used.</param>
+            <param name="registerBehavior">Registration behavior</param>
+            <returns>IDependencyService</returns>
+        </member>
+        <member name="T:XamarinUniversity.Infrastructure.NamedDataTemplateSelector">
+            <summary>
+            This is a simple DataTemplateSelector that matches resources by the typename of the
+            object being data bound to the ListView.
+            </summary>
+            <remarks>
+            To use it, add a copy into your resources and then assign it as the value for a
+            <see cref="T:Xamarin.Forms.ListView"/> ItemTemplate. This will evaluate the bound object and, based
+            on the typename, retrieve a resource (starting at that object and working up to App)
+            by the name.
+            </remarks>
+        </member>
+        <member name="P:XamarinUniversity.Infrastructure.NamedDataTemplateSelector.StripNamespace">
+            <summary>
+            True to strip off the namespace and only look for the base typename.
+            </summary>
+            <value><c>true</c> if strip namespace; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.NamedDataTemplateSelector.OnSelectTemplate(System.Object,Xamarin.Forms.BindableObject)">
+            <summary>
+            Retrieves the DataTemplate for a given object using the typename of the 
+            object as the resource key. Throws an exception if the resource is not found.
+            </summary>
+            <returns>The select template.</returns>
+            <param name="item">Item.</param>
+            <param name="container">Container.</param>
+        </member>
+        <member name="T:XamarinUniversity.Infrastructure.ElementExtensions">
+            <summary>
+            Extension methods for the Xamarin.Forms <c>Element</c> class.
+            </summary>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.ElementExtensions.FindOwner``1(Xamarin.Forms.Element)">
+            <summary>
+            Find a visual ancestor from a point in our tree.
+            </summary>
+            <returns>The owner.</returns>
+            <param name="view">View.</param>
+            <typeparam name="T">The 1st type parameter.</typeparam>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.ElementExtensions.FindResource``1(Xamarin.Forms.VisualElement,System.String)">
+            <summary>
+            Find resource from a given visual element.
+            Throws an exception if the named resource does not exist.
+            </summary>
+            <returns>The owner.</returns>
+            <param name="view">View.</param>
+            <param name="name">Name of the resource to locate.</param>
+            <typeparam name="T">Type of resource being retrieved</typeparam>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.ElementExtensions.TryFindResource``1(Xamarin.Forms.VisualElement,System.String,``0@)">
+            <summary>
+            Find resource from a given visual element.
+            Returns true if the resource is found, false if not.
+            </summary>
+            <returns>The owner.</returns>
+            <param name="view">View.</param>
+            <param name="name">Name of the resource we are looking for</param>
+            <param name="resource">Returned resource</param>
+            <typeparam name="T">The 1st type parameter.</typeparam>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.ElementExtensions.EnumerateLogicalTree(Xamarin.Forms.Element)">
+            <summary>
+            This walks the Xamarin.Forms logical tree and enumerates an object and any content/children.
+            </summary>
+            <param name="parentElement">Starting element</param>
+            <returns>Enumerated list of element + children/content</returns>
+        </member>
+        <member name="T:XamarinUniversity.Infrastructure.ImageResourceExtension">
+            <summary>
+            XAML markup extension to load an image from embedded resources.
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Infrastructure.ImageResourceExtension.AssemblyResolverType">
+            <summary>
+            Optional System.Type used to identify the assembly where
+            the resources are located
+            </summary>
+            <value>The type of the assembly resolver.</value>
+        </member>
+        <member name="P:XamarinUniversity.Infrastructure.ImageResourceExtension.Source">
+            <summary>
+            Resource ID which identifies the image
+            </summary>
+            <value>The source.</value>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.ImageResourceExtension.Xamarin#Forms#Xaml#IMarkupExtension#ProvideValue(System.IServiceProvider)">
+            <summary>
+            Returns the image
+            </summary>
+            <returns>The value.</returns>
+            <param name="serviceProvider">Service provider.</param>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.ImageResourceExtension.ProvideValue(System.IServiceProvider)">
+            <summary>
+            Returns the image
+            </summary>
+            <returns>The value.</returns>
+            <param name="serviceProvider">Service provider.</param>
+        </member>
+        <member name="T:XamarinUniversity.Infrastructure.PickerBindBehavior">
+            <summary>
+            This Xamarin.Forms behavior enables data binding with the Picker control for MVVM.
+            Add an instance to the Behaviors collection and bind the Items and SelectedItem 
+            property on the behavior. This will populate the picker and let you control and
+            monitor the selection.
+            </summary>
+            <example>
+            <!--[CDATA[
+            <Picker ...>
+               <Picker.Behaviors>
+                   <PickerBindBehavior Items="{Binding ACollection}" 
+                                       SelectedItem="{Binding OneItem}" />
+               </Picker.Behaviors>
+            </Picker>
+            ]]>-->
+            </example>
+        </member>
+        <member name="F:XamarinUniversity.Infrastructure.PickerBindBehavior.ItemsProperty">
+            <summary>
+            Items bindable property
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Infrastructure.PickerBindBehavior.Items">
+            <summary>
+            Get or set the collection of items for the Picker to display.
+            The behavior will add the textual (ToString) representation for each item.
+            </summary>
+            <value>Any IEnumerable of items to display.</value>
+        </member>
+        <member name="F:XamarinUniversity.Infrastructure.PickerBindBehavior.SelectedItemProperty">
+            <summary>
+            The currently selected item
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Infrastructure.PickerBindBehavior.SelectedItem">
+            <summary>
+            The currently selected object in the Picker.
+            This is the actual instance, not just a string.
+            </summary>
+            <value>The selected item.</value>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.PickerBindBehavior.OnAttachedTo(Xamarin.Forms.Picker)">
+            <summary>
+            Called when this behavior is attached to a visual.
+            </summary>
+            <param name="bindable">Visual owner</param>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.PickerBindBehavior.OnDetachingFrom(Xamarin.Forms.Picker)">
+            <summary>
+            Called when this behavior is detached from a visual
+            </summary>
+            <param name="bindable">Visual owner</param>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.PickerBindBehavior.OnItemsChanged(System.Collections.IEnumerable,System.Collections.IEnumerable)">
+            <summary>
+            This method is called when the <see cref="P:XamarinUniversity.Infrastructure.PickerBindBehavior.Items"/> property is changed.
+            It will update the picker visual and also add a change handler if the 
+            passed enumerable implements <see cref="T:System.Collections.Specialized.INotifyCollectionChanged"/>
+            </summary>
+            <param name="oldValue">Old value.</param>
+            <param name="newValue">New value.</param>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.PickerBindBehavior.OnCollectionChanged(System.Object,System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+            <summary>
+            This method is called if the data-bound Items implements collection-change
+            notifications. It will update the Picker visuals based on the collection changes.
+            </summary>
+            <param name="sender">The collection</param>
+            <param name="e">EventArgs</param>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.PickerBindBehavior.OnSelectedItemChanged(System.Object,System.Object)">
+            <summary>
+            This is called when the behavior's <see cref="P:XamarinUniversity.Infrastructure.PickerBindBehavior.SelectedItem"/> property is changed.
+            It will update the Picker's SelectedIndex property.
+            </summary>
+            <param name="oldValue">Old value.</param>
+            <param name="newValue">New value.</param>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.PickerBindBehavior.OnSelectedIndexChanged(System.Object,System.EventArgs)">
+            <summary>
+            This is called when the Picker's SelectedIndex property is changed
+            by the visual control. It will update the <see cref="P:XamarinUniversity.Infrastructure.PickerBindBehavior.SelectedItem"/> property.
+            </summary>
+            <param name="sender">Sender.</param>
+            <param name="e">E.</param>
+        </member>
+        <member name="T:XamarinUniversity.Infrastructure.DependencyServiceExtension">
+            <summary>
+            This markup extension allows XAML to lookup dependencies 
+            using the <see cref="T:Xamarin.Forms.DependencyService"/>.
+            </summary>
+            <example>
+            <code>
+            BindingContext="{DependencyService Type={x:Type someVMType}}"
+            </code>
+            </example>
+        </member>
+        <member name="P:XamarinUniversity.Infrastructure.DependencyServiceExtension.FetchTarget">
+            <summary>
+            Fetch target type for <seealso cref="T:Xamarin.Forms.DependencyService"/>
+            </summary>
+            <value>The fetch target.</value>
+        </member>
+        <member name="P:XamarinUniversity.Infrastructure.DependencyServiceExtension.Type">
+            <summary>
+            Type to retrieve (interface or class)
+            </summary>
+            <value>The type.</value>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.DependencyServiceExtension.#ctor">
+            <summary>
+            Initializes the markup extension
+            </summary>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.DependencyServiceExtension.ProvideValue(System.IServiceProvider)">
+            <summary>
+            Looks up the specified type and returns it to the XAML parser.
+            </summary>
+            <returns>Retrieved object</returns>
+            <param name="serviceProvider">Service provider.</param>
+        </member>
+        <member name="T:XamarinUniversity.Infrastructure.EventToCommandBehavior">
+            <summary>
+            This behavior allows a ViewModel to turn any event exposed by a control into
+            an ICommand which can be forwarded to the ViewModel.
+            </summary>
+            <example>
+            <!--[CDATA[
+            <Label Text="{Binding Text}"
+                   VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+               <Label.Behaviors>
+                  <inf:EventToCommandBehavior
+                      EventName = "SizeChanged" Command="{Binding MyCommand}"
+                      EventArgsConverter="{StaticResource converter}"/>
+               </Label.Behaviors>
+            </Label>
+            ]]>-->
+            </example>
+        </member>
+        <member name="F:XamarinUniversity.Infrastructure.EventToCommandBehavior.EventNameProperty">
+            <summary>
+            Bindable property for the event name to hook into.
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Infrastructure.EventToCommandBehavior.EventName">
+            <summary>
+            Event name to hook
+            </summary>
+            <value>The name of the event.</value>
+        </member>
+        <member name="F:XamarinUniversity.Infrastructure.EventToCommandBehavior.CommandProperty">
+            <summary>
+            Bindable property for the ICommand to forward the event to.
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Infrastructure.EventToCommandBehavior.Command">
+            <summary>
+            The ICommand implementation to call when the event is raised.
+            </summary>
+            <value>The command.</value>
+        </member>
+        <member name="F:XamarinUniversity.Infrastructure.EventToCommandBehavior.CommandParameterProperty">
+            <summary>
+            Bindable property for an optional parameter to send to the Command.
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Infrastructure.EventToCommandBehavior.CommandParameter">
+            <summary>
+            Provides an optional piece of data for the command.
+            This is only used if the EventArgsConverter is _not_ supplied.
+            </summary>
+            <value>The command parameter.</value>
+        </member>
+        <member name="F:XamarinUniversity.Infrastructure.EventToCommandBehavior.EventArgsConverterProperty">
+            <summary>
+            Bindable property for an optional Sender+EventArgs > CommandParameter converter.
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Infrastructure.EventToCommandBehavior.EventArgsConverter">
+            <summary>
+            Converter which is passed the sender/EventArgs for the event; 
+            returns the parameter value passed to the Command.
+            </summary>
+            <value>The command parameter.</value>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.EventToCommandBehavior.OnAttachedTo(Xamarin.Forms.VisualElement)">
+            <summary>
+            Called when the behavior is attached to an element.
+            </summary>
+            <param name="bindable">Object we are attached to</param>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.EventToCommandBehavior.OnDetachingFrom(Xamarin.Forms.VisualElement)">
+            <summary>
+            This is called when the behavior is being removed from
+            a visual element.
+            </summary>
+            <param name="bindable">Bindable.</param> 
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.EventToCommandBehavior.Subscribe(System.Object,System.String)">
+            <summary>
+            This is used to connect to the EventName on the passed target object.
+            We wire up to a method in this instance named OnEventRaised.
+            </summary>
+            <param name="target">Target object</param>
+            <param name="eventName">Name of the event to subscribe to</param>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.EventToCommandBehavior.Unsubscribe">
+            <summary>
+            Method to unsubscribe from the event on the target object.
+            </summary>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.EventToCommandBehavior.OnEventRaised(System.Object,System.EventArgs)">
+            <summary>
+            This event handler is raised in response to the EventName.
+            </summary>
+            <param name="sender">View raising event</param>
+            <param name="e">EventArgs</param>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.EventToCommandBehavior.OnEventNameChanged(Xamarin.Forms.BindableObject,System.Object,System.Object)">
+            <summary>
+            This is called when the EventName property is changed.
+            </summary>
+            <param name="bindable">EventToCommandBehavior</param>
+            <param name="oldValue">Old event value.</param>
+            <param name="newValue">New event value.</param>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.EventToCommandBehavior.OnEventNameChangedImpl(System.String,System.String)">
+            <summary>
+            This is an instance method clled when the EventName property is changed.
+            </summary>
+            <param name="oldValue">Old value.</param>
+            <param name="newValue">New value.</param>
+        </member>
+        <member name="T:XamarinUniversity.Infrastructure.BindingContextBehavior`1">
+            <summary>
+            Provides a Behavior(Of T) which forwards the associated object's binding
+            context to the behavior. This is NOT done by default because behaviors can
+            be shared if they are applied using a Style. In that case, there is not
+            a 1:1 relationship. This enforces the 1:1 relationship but disallows the 
+            application via a shared resource.
+            </summary>
+        </member>
+        <member name="F:XamarinUniversity.Infrastructure.BindingContextBehavior`1.bindingContextForwarded">
+            <summary>
+            True if the binding context is being forwarded.
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Infrastructure.BindingContextBehavior`1.AssociatedObject">
+            <summary>
+            The single object this behavior is bound to.
+            </summary>
+            <value>The associated object.</value>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.BindingContextBehavior`1.OnAttachedTo(`0)">
+            <summary>
+            Called when the behavior is attached to an object.
+            </summary>
+            <param name="bindable">Bindable.</param>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.BindingContextBehavior`1.OnDetachingFrom(`0)">
+            <summary>
+            Called when this behavior is being detached from a bindable object.
+            </summary>
+            <param name="bindable">Bindable.</param>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.BindingContextBehavior`1.OnAssociatedBindingContextChanged(System.Object,System.EventArgs)">
+            <summary>
+            Raised when our associated object's BindingContext changes.
+            </summary>
+            <param name="sender">Sender.</param>
+            <param name="e">E.</param>
+        </member>
+        <member name="T:XamarinUniversity.Infrastructure.RelativeBindingContext">
+            <summary>
+            This markup extension will locate the given element by name, grab the 
+            associated BindingContext and return it. This allows you to forward a 
+            BindingContext from some other element with a simpler syntax.
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Infrastructure.RelativeBindingContext.Name">
+            <summary>
+            The name of the Element in the XAML file to grab the 
+            BindingContext from.
+            </summary>
+            <value>The name.</value>
+        </member>
+        <member name="P:XamarinUniversity.Infrastructure.RelativeBindingContext.TrackBindingChanges">
+            <summary>
+            True to track binding changes and apply them; this is the 
+            default. Set this property to FALSE if you are not applying 
+            the value to the BindingContext.
+            </summary>
+            <value><c>true</c> if track binding changes; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.RelativeBindingContext.#ctor">
+            <summary>
+            Construct a new RelativeBindinContext.
+            </summary>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.RelativeBindingContext.ProvideValue(System.IServiceProvider)">
+            <summary>
+            Retrieves the BindingContext from the named element.
+            </summary>
+            <returns>BindingContext value or null</returns>
+            <param name="serviceProvider">Service provider.</param>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.RelativeBindingContext.OnBindingContextChanged(System.Object,System.EventArgs)">
+            <summary>
+            This is called when the named element's binding context has changed.
+            We forward this back to our associated object.
+            </summary>
+            <param name="sender">Sender.</param>
+            <param name="e">E.</param>
+        </member>
+        <member name="T:XamarinUniversity.Infrastructure.NumericValidationBehavior">
+            <summary>
+            A custom behavior for the Xamarin.Forms Entry control to 
+            restrict the input to be numeric only in the form of a double or integer.
+            </summary>
+        </member>
+        <member name="F:XamarinUniversity.Infrastructure.NumericValidationBehavior.AllowDecimalProperty">
+            <summary>
+            Backing storage for the boolean flag which decides between
+            integer vs. double validation.
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Infrastructure.NumericValidationBehavior.AllowDecimal">
+            <summary>
+            Bindable property to hold the boolean flag which decides
+            whether we test for integer vs. double values.
+            </summary>
+            <value>The selected item.</value>
+        </member>
+        <member name="F:XamarinUniversity.Infrastructure.NumericValidationBehavior.InvalidColorProperty">
+            <summary>
+            Backing storage for the color used when the
+            Entry has invalid data (non-numeric).
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Infrastructure.NumericValidationBehavior.InvalidColor">
+            <summary>
+            Bindable property to hold the color used when the
+            Entry has invalid data (non-numeric).
+            </summary>
+            <value>The selected item.</value>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.NumericValidationBehavior.OnAttachedTo(Xamarin.Forms.Entry)">
+            <summary>
+            Called when this behavior is attached to a visual.
+            </summary>
+            <param name="bindable">Visual owner</param>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.NumericValidationBehavior.OnDetachingFrom(Xamarin.Forms.Entry)">
+            <summary>
+            Called when this behavior is detached from a visual
+            </summary>
+            <param name="bindable">Visual owner</param>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.NumericValidationBehavior.OnEntryTextChanged(System.Object,Xamarin.Forms.TextChangedEventArgs)">
+            <summary>
+            Called when the associated Entry has new text.
+            This changes the text color to reflect whether the data
+            is valid.
+            </summary>
+            <param name="sender">Entry control</param>
+            <param name="args">TextChanged event arguments</param>
+        </member>
+        <member name="T:XamarinUniversity.Infrastructure.EffectBehavior">
+            <summary>
+            This behavior adds an Effect instance to a control when the behavior is attached to the control,
+            and removes the Effect instance when the behavior is detached from the control.
+            </summary>
+            <example>
+            <!--[CDATA[
+            <Label Text = "Label Shadow Effect">
+            	<Label.Behaviors>
+            		<inf:EffectBehavior Group="Xamarin" Name="LabelShadowEffect" />
+            	</Label.Behaviors>
+            </Label>
+            ]]>-->
+            </example>
+        </member>
+        <member name="F:XamarinUniversity.Infrastructure.EffectBehavior.GroupProperty">
+            <summary>
+            Bindable property for the ResolutionGroupName attribute of the Effect.
+            </summary>
+        </member>
+        <member name="F:XamarinUniversity.Infrastructure.EffectBehavior.NameProperty">
+            <summary>
+            Bindable property for the ExportEffect attribute of the Effect.
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Infrastructure.EffectBehavior.Group">
+            <summary>
+            The group name of the Effect
+            </summary>
+            <value>The ResolutionGroupName value of the Effect.</value>
+        </member>
+        <member name="P:XamarinUniversity.Infrastructure.EffectBehavior.Name">
+            <summary>
+            The name of the Effect.
+            </summary>
+            <value>The ExportEffect value of the Effect.</value>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.EffectBehavior.OnAttachedTo(Xamarin.Forms.BindableObject)">
+            <summary>
+            Called when the behavior is attached to an element.
+            </summary>
+            <param name="bindable">The attached object.</param>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.EffectBehavior.OnDetachingFrom(Xamarin.Forms.BindableObject)">
+            <summary>
+            Called when the behavior is being removed from an element.
+            </summary>
+            <param name="bindable">The object being detached from.</param>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.EffectBehavior.AddEffect(Xamarin.Forms.View)">
+            <summary>
+            Adds the Effect to the element's Effects collection.
+            </summary>
+            <param name="view">The View to add the Effect to.</param>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.EffectBehavior.RemoveEffect(Xamarin.Forms.View)">
+            <summary>
+            Removes the Effect from the element's Effects collection.
+            </summary>
+            <param name="view">The View to remove the Effect from.</param>
+        </member>
+        <member name="M:XamarinUniversity.Infrastructure.EffectBehavior.GetEffect">
+            <summary>
+            Resolves the Effect to be added to an element.
+            </summary>
+            <returns>The resolved Effect.</returns>
+        </member>
+        <member name="T:XamarinUniversity.Controls.ItemsControl">
+            <summary>
+            Simple ItemsControl to render a list of things in a stacked view using
+            either text labels, or an inflated data template. It also includes the ability
+            to display a text placeholder if no items are present in the data bound collection.
+            </summary>
+        </member>
+        <member name="F:XamarinUniversity.Controls.ItemsControl.PlaceholderTextProperty">
+            <summary>
+            Bindable property for the placeholder text.
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Controls.ItemsControl.PlaceholderText">
+            <summary>
+            Gets or sets the placeholder text.
+            </summary>
+            <value>The placeholder text.</value>
+        </member>
+        <member name="F:XamarinUniversity.Controls.ItemsControl.ItemStyleProperty">
+            <summary>
+            Bindable property for the Label style used for each item when there
+            is no data template assigned.
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Controls.ItemsControl.ItemStyle">
+            <summary>
+            Gets or sets the item style used for dynamically generated labels.
+            </summary>
+            <value>The item style.</value>
+        </member>
+        <member name="F:XamarinUniversity.Controls.ItemsControl.ItemsSourceProperty">
+            <summary>
+            Bindable property for the data source
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Controls.ItemsControl.ItemsSource">
+            <summary>
+            Gets or sets the items source - can be any collection of elements.
+            </summary>
+            <value>The items source.</value>
+        </member>
+        <member name="F:XamarinUniversity.Controls.ItemsControl.ItemTemplateProperty">
+            <summary>
+            Bindable property for the data template to visually represent each item.
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Controls.ItemsControl.ItemTemplate">
+            <summary>
+            Gets or sets the item template used to generate the visuals for a single item.
+            </summary>
+            <value>The item template.</value>
+        </member>
+        <member name="M:XamarinUniversity.Controls.ItemsControl.#ctor">
+            <summary>
+            Initializes an ItemsControl.
+            </summary>
+        </member>
+        <member name="M:XamarinUniversity.Controls.ItemsControl.OnItemsSourceChanged(Xamarin.Forms.BindableObject,System.Object,System.Object)">
+            <summary>
+            This is called when the underlying data source is changed.
+            </summary>
+            <param name="bindable">ItemsSource</param>
+            <param name="oldValue">Old value.</param>
+            <param name="newValue">New value.</param>
+        </member>
+        <member name="M:XamarinUniversity.Controls.ItemsControl.OnItemsSourceChangedImpl(System.Collections.IList,System.Collections.IList)">
+            <summary>
+            Instance method called when the underlying data source is changed through the
+            <see cref="P:XamarinUniversity.Controls.ItemsControl.ItemsSource"/> property. This re-generates the list based on the 
+            new collection.
+            </summary>
+            <param name="oldValue">Old value.</param>
+            <param name="newValue">New value.</param>
+        </member>
+        <member name="M:XamarinUniversity.Controls.ItemsControl.OnItemStylePropertyChanged(Xamarin.Forms.BindableObject,System.Object,System.Object)">
+            <summary>
+            Called when the Label style is changed.
+            </summary>
+            <param name="bindable">ItemsControl</param>
+            <param name="oldValue">Old value.</param>
+            <param name="newValue">New value.</param>
+        </member>
+        <member name="M:XamarinUniversity.Controls.ItemsControl.OnItemStylePropertyChangedImpl(Xamarin.Forms.Style)">
+            <summary>
+            Instance method called when the label style is changed through the
+            <see cref="P:XamarinUniversity.Controls.ItemsControl.ItemStyle"/> property. This applies the new style to all the labels.
+            </summary>
+            <param name="style">Style.</param>
+        </member>
+        <member name="M:XamarinUniversity.Controls.ItemsControl.FillContainer(System.Collections.IList)">
+            <summary>
+            This method takes our items source and generates visuals for
+            each item in the collection; it can reuse visuals which were created
+            previously and simply changes the binding context.
+            </summary>
+            <param name="newValue">New items to display</param>
+        </member>
+        <member name="M:XamarinUniversity.Controls.ItemsControl.InflateTemplate(Xamarin.Forms.DataTemplate,System.Object)">
+            <summary>
+            Inflates the visuals for a data template or template selector
+            and adds it to our StackLayout.
+            </summary>
+            <param name="template">Template.</param>
+            <param name="item">Item.</param>
+        </member>
+        <member name="M:XamarinUniversity.Controls.ItemsControl.OnCollectionChanged(System.Object,System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+            <summary>
+            This is called when the data source collection implements
+            collection change notifications and the data has changed.
+            This is not optimized - it simply replaces all the data.
+            </summary>
+            <param name="sender">Sender.</param>
+            <param name="e">E.</param>
+        </member>
+        <member name="T:XamarinUniversity.Converters.DebugConverter">
+            <summary>
+            This provides a debugging output for a binding converter
+            </summary>
+        </member>
+        <member name="M:XamarinUniversity.Converters.DebugConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Outputs all parameters to the debug console.
+            </summary>
+            <returns>
+            A converted value. If the method returns null, the valid null value is used.
+            </returns>
+            <param name="value">The value produced by the binding source.</param><param name="targetType">The type of the binding target property.</param><param name="parameter">The converter parameter to use.</param><param name="culture">The culture to use in the converter.</param>
+        </member>
+        <member name="M:XamarinUniversity.Converters.DebugConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a value. 
+            </summary>
+            <returns>
+            A converted value. If the method returns null, the valid null value is used.
+            </returns>
+            <param name="value">The value that is produced by the binding target.</param><param name="targetType">The type to convert to.</param><param name="parameter">The converter parameter to use.</param><param name="culture">The culture to use in the converter.</param>
+        </member>
+        <member name="M:XamarinUniversity.Converters.DebugConverter.ProvideValue(System.IServiceProvider)">
+            <summary>
+            Returns the converter
+            </summary>
+            <param name="serviceProvider"></param>
+            <returns></returns>
+        </member>
+        <member name="T:XamarinUniversity.Converters.NotBooleanConverter">
+            <summary>
+            This converter reverses a Boolean value (True == False, False == True).
+            </summary>
+        </member>
+        <member name="M:XamarinUniversity.Converters.NotBooleanConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a value. 
+            </summary>
+            <returns>
+            A converted value. If the method returns null, the valid null value is used.
+            </returns>
+            <param name="value">The value produced by the binding source.</param><param name="targetType">The type of the binding target property.</param><param name="parameter">The converter parameter to use.</param><param name="culture">The culture to use in the converter.</param>
+        </member>
+        <member name="M:XamarinUniversity.Converters.NotBooleanConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a value. 
+            </summary>
+            <returns>
+            A converted value. If the method returns null, the valid null value is used.
+            </returns>
+            <param name="value">The value that is produced by the binding target.</param><param name="targetType">The type to convert to.</param><param name="parameter">The converter parameter to use.</param><param name="culture">The culture to use in the converter.</param>
+        </member>
+        <member name="M:XamarinUniversity.Converters.NotBooleanConverter.ProvideValue(System.IServiceProvider)">
+            <summary>
+            Returns the converter
+            </summary>
+            <param name="serviceProvider"></param>
+            <returns></returns>
+        </member>
+        <member name="T:XamarinUniversity.Converters.NullOrEmptyBooleanConverter">
+            <summary>
+            This converts an object value to a boolean
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Converters.NullOrEmptyBooleanConverter.Empty">
+            <summary>
+            Mapping value for null - defaults to false.
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Converters.NullOrEmptyBooleanConverter.NotEmpty">
+            <summary>
+            Mapping value for non-null, defaults to true.
+            </summary>
+        </member>
+        <member name="M:XamarinUniversity.Converters.NullOrEmptyBooleanConverter.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:XamarinUniversity.Converters.NullOrEmptyBooleanConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a value. 
+            </summary>
+            <returns>
+            A converted value. If the method returns null, the valid null value is used.
+            </returns>
+            <param name="value">The value produced by the binding source.</param><param name="targetType">The type of the binding target property.</param><param name="parameter">The converter parameter to use.</param><param name="culture">The culture to use in the converter.</param>
+        </member>
+        <member name="M:XamarinUniversity.Converters.NullOrEmptyBooleanConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a value. 
+            </summary>
+            <returns>
+            A converted value. If the method returns null, the valid null value is used.
+            </returns>
+            <param name="value">The value that is produced by the binding target.</param><param name="targetType">The type to convert to.</param><param name="parameter">The converter parameter to use.</param><param name="culture">The culture to use in the converter.</param>
+        </member>
+        <member name="M:XamarinUniversity.Converters.NullOrEmptyBooleanConverter.ProvideValue(System.IServiceProvider)">
+            <summary>
+            Returns the converter
+            </summary>
+            <param name="serviceProvider"></param>
+            <returns></returns>
+        </member>
+        <member name="T:XamarinUniversity.Converters.IntegerToBooleanConverter">
+            <summary>
+            Converts an integer value into a boolean true/false
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Converters.IntegerToBooleanConverter.ZeroOrNull">
+            <summary>
+            Boolean value for zero; defaults to false.
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Converters.IntegerToBooleanConverter.Positive">
+            <summary>
+            Boolean value for non-zero; defaults to true.
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Converters.IntegerToBooleanConverter.Negative">
+            <summary>
+            Boolean value for negative treqtment; defaults to false.
+            </summary>
+            <value><c>true</c> if negative treatment; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="M:XamarinUniversity.Converters.IntegerToBooleanConverter.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:XamarinUniversity.Converters.IntegerToBooleanConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a value. 
+            </summary>
+            <returns>
+            A converted value. If the method returns null, the valid null value is used.
+            </returns>
+            <param name="value">The value produced by the binding source.</param><param name="targetType">The type of the binding target property.</param><param name="parameter">The converter parameter to use.</param><param name="culture">The culture to use in the converter.</param>
+        </member>
+        <member name="M:XamarinUniversity.Converters.IntegerToBooleanConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a value. 
+            </summary>
+            <returns>
+            A converted value. If the method returns null, the valid null value is used.
+            </returns>
+            <param name="value">The value that is produced by the binding target.</param><param name="targetType">The type to convert to.</param><param name="parameter">The converter parameter to use.</param><param name="culture">The culture to use in the converter.</param>
+        </member>
+        <member name="M:XamarinUniversity.Converters.IntegerToBooleanConverter.ProvideValue(System.IServiceProvider)">
+            <summary>
+            Returns the converter
+            </summary>
+            <param name="serviceProvider"></param>
+            <returns></returns>
+        </member>
+        <member name="T:XamarinUniversity.Converters.ImageResourceConverter">
+            <summary>
+            A custom IValueConverter which can be used with a {Binding} to convert
+            a View Model string-based property into an ImageSource when the image
+            is stored as an embedded resource. If you are not using a binding, then
+            you can use the ImageResourceExtension to load an embedded resource.
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Converters.ImageResourceConverter.Prefix">
+            <summary>
+            Prefix to prepend to the Resource ID (e.g. assembly + namespace + folder)
+            Leave empty if the bound property specifies the full resource ID.
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Converters.ImageResourceConverter.ResolvingType">
+            <summary>
+            A type in the same assembly as the image. This 
+            is a required property set if you are in a UWP application
+            and using .NET Native
+            </summary>
+            <value>The assembly.</value>
+        </member>
+        <member name="M:XamarinUniversity.Converters.ImageResourceConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Convert a string-based value into an embedded resource
+            </summary>
+            <param name="value">Resource ID</param>
+            <param name="targetType">ImageSource</param>
+            <param name="parameter">Optional prefix</param>
+            <param name="culture">Culture</param>
+        </member>
+        <member name="M:XamarinUniversity.Converters.ImageResourceConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Used to convert a value from target > source; not used for this converter.
+            </summary>
+            <returns>Converted value</returns>
+            <param name="value">Value.</param>
+            <param name="targetType">Target type.</param>
+            <param name="parameter">Optional parameter</param>
+            <param name="culture">Culture.</param>
+        </member>
+        <member name="M:XamarinUniversity.Converters.ImageResourceConverter.ProvideValue(System.IServiceProvider)">
+            <summary>
+            Allows the value converter to be created inline; note that it is not
+            shared if you use this approach.
+            </summary>
+            <returns>The Value Converter</returns>
+            <param name="serviceProvider">Service provider.</param>
+        </member>
+        <member name="T:XamarinUniversity.Converters.EventArgsConverter">
+            <summary>
+            This is a converter which can be used with the EventToCommandBehavior to 
+            retrieve a single property or field from an EventArgs class coming from 
+            an event to then pass into an ICommand as the parameter.
+            </summary>
+            <example>
+            <!--[CDATA[
+            <ListView ...>
+               <ListView.Behaviors>
+                   <inf:EventToCommandBehavior Command = "{Binding TheCommand}" EventName="ItemTapped">
+                       <inf:EventToCommandBehavior.EventArgsConverter>
+                           <cvt:EventArgsConverter PropertyName = "Item" />
+                       </inf:EventToCommandBehavior.EventArgsConverter>
+                   </inf:EventToCommandBehavior>
+               </ListView.Behaviors>
+            </ListView>
+            ]]>-->
+            </example>
+        </member>
+        <member name="P:XamarinUniversity.Converters.EventArgsConverter.PropertyName">
+            <summary>
+            The property (or field) to retrieve; must be public and
+            use exact casing.
+            </summary>
+            <value>The name of the property.</value>
+        </member>
+        <member name="M:XamarinUniversity.Converters.EventArgsConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Takes the EventArgs passed in the 'parameter' and pulls a single
+            property or field value from it as the return value.
+            </summary>
+            <returns>Property or field value</returns>
+            <param name="value">Event sender</param>
+            <param name="targetType">Expected target type</param>
+            <param name="parameter">EventArgs from event</param>
+            <param name="culture">UI culture</param>
+        </member>
+        <member name="M:XamarinUniversity.Converters.EventArgsConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Used to convert the value back from source > tatget. Not used with this converter
+            </summary>
+            <returns>Exceptiopn</returns>
+            <param name="value">sender of the event</param>
+            <param name="targetType">Expected target type</param>
+            <param name="parameter">Event Args value</param>
+            <param name="culture">UI culture</param>
+        </member>
+        <member name="T:XamarinUniversity.Commands.NavigateBackCommand">
+            <summary>
+            This command uses the registered INavigationService to perform
+            a backwards navigation.
+            </summary>
+        </member>
+        <member name="M:XamarinUniversity.Commands.NavigateBackCommand.#ctor">
+            <summary>
+            Protected ctor - only allow library to create command
+            unless you derive from it. Should alway use NavigationCommands.
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Commands.NavigateBackCommand.MonitorNavigationStack">
+            <summary>
+            True/False to monitor the enavigation and raise our CanExecuteChanged
+            in response.
+            </summary>
+        </member>
+        <member name="E:XamarinUniversity.Commands.NavigateBackCommand.CanExecuteChanged">
+            <summary>
+            Event raised when the state of the NavigateBackCommand has changed.
+            </summary>
+        </member>
+        <member name="M:XamarinUniversity.Commands.NavigateBackCommand.OnUpdateCanExecuteChanged(System.Object,System.EventArgs)">
+            <summary>
+            This is called when the navigation stack has changed.
+            It refreshes the state of the command.
+            </summary>
+            <param name="sender">this</param>
+            <param name="e">Empty EventArgs</param>
+        </member>
+        <member name="M:XamarinUniversity.Commands.NavigateBackCommand.CanExecute(System.Object)">
+            <summary>
+            This is called to determine whether the command can be executed.
+            We use the current navigation stack state.
+            </summary>
+            <returns>True if the command is valid</returns>
+            <param name="parameter">Parameter.</param>
+        </member>
+        <member name="M:XamarinUniversity.Commands.NavigateBackCommand.Execute(System.Object)">
+            <summary>
+            This is called to execute the command.
+            </summary>
+            <param name="parameter">Not used</param>
+        </member>
+        <member name="T:XamarinUniversity.Commands.NavigationCommands">
+            <summary>
+            Commands which perform common navigation 
+            </summary>
+        </member>
+        <member name="F:XamarinUniversity.Commands.NavigationCommands.navBackCommand">
+            <summary>
+            Field to hold back nav command
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Commands.NavigationCommands.GoBack">
+            <summary>
+            A command which performs a NavigationService.GoBack
+            </summary>
+        </member>
+        <member name="F:XamarinUniversity.Commands.NavigationCommands.navToCommand">
+            <summary>
+            Field to hold fwd nav command
+            </summary>
+        </member>
+        <member name="P:XamarinUniversity.Commands.NavigationCommands.NavigateTo">
+            <summary>
+            A command which performs a NavigationService.Navigate
+            </summary>
+        </member>
+        <member name="T:XamarinUniversity.Commands.NavigateToCommand">
+            <summary>
+            This class implements an ICommand which will use the registered INavigationService
+            to perform a NavigateAsync to a specific page
+            </summary>
+        </member>
+        <member name="M:XamarinUniversity.Commands.NavigateToCommand.#ctor">
+            <summary>
+            Protected ctor - only allow library to create command
+            unless you derive from it. Should alway use NavigationCommands.
+            </summary>
+        </member>
+        <member name="E:XamarinUniversity.Commands.NavigateToCommand.CanExecuteChanged">
+            <summary>
+            Event raised when the state of the NavigateBackCommand has changed.
+            </summary>
+        </member>
+        <member name="M:XamarinUniversity.Commands.NavigateToCommand.CanExecute(System.Object)">
+            <summary>
+            This is called to determine whether the command can be executed.
+            </summary>
+            <returns>True if the command is valid</returns>
+            <param name="parameter">PageKey to navigate to</param>
+        </member>
+        <member name="M:XamarinUniversity.Commands.NavigateToCommand.Execute(System.Object)">
+            <summary>
+            This is called to execute the command.
+            </summary>
+            <param name="parameter">Page Key to navigate to</param>
+        </member>
+    </members>
+</doc>

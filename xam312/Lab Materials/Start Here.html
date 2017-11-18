@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+    <title>Customizing the ListView in Xamarin.Forms</title>
+    <link rel="stylesheet" type="text/css" href="./parts/res/styles/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./parts/res/styles/prettify.css">
+    <link rel="stylesheet" type="text/css" href="./parts/res/styles/styles.css">
+</head>
+
+<body>
+    <!-- This will be filled in at runtime -->
+    <header role="course-title"></header>
+
+    <section id="main">
+
+        <h2>Before you begin</h2>
+        <p>
+            This is a Xamarin.Forms class which includes projects for iOS, Android, and Windows. When working on the exercises, you can select the easiest supported platform to run your application on. Refer to the
+            <a href="https://university.xamarin.com/resources/setup-requirements" target="_blank">Setup Requirements</a> on the Xamarin University website if you need help with your development environment.
+        </p>
+
+        <h2>Overview</h2>
+        <p>
+            This session dives deeper into using and customizing the <code>ListView</code> control in Xamarin.Forms to display collections of data. It is a follow-on class to <a href="https://university.xamarin.com/classes/track/xamarin-forms#xam311-listview-xamforms">XAM311 - Using the ListView in Xamarin.Forms</a> and it is expected that you have already taken that class.
+        </p>
+
+        <h2>Objectives</h2>
+        <ol>
+            <li>Create custom cell definitions</li>
+            <li>Add headers and footers</li>
+            <li>Separate your data into Groups</li>
+            <li>Performance-tune your ListViews</li>
+        </ol>
+        
+        <h2>Lecture</h2>
+        <p><a href="./parts/slides.pdf">XAM312 - Customizing the ListView in Xamarin.Forms</a>.</p>
+        
+        <h2>Exercises</h2>
+        <ol>
+            <li>
+                <div class="objective">Providing a custom cell template for our ListView</div>
+                <a href="./parts/part1.html">Exercise</a>
+                <br />
+                In this first exercise, we will replace an existing <code>ImageCell</code> definition with a custom row visualization that allows us to dictate the position and color of the elements displaying the data.
+            </li>
+
+            <li>
+                <div class="objective">Add a header and footer to the ListView</div>
+                <a href="./parts/part2.html">Exercise</a>
+                <br />
+                In this exercise, we will add add a header and footer to our ListView.
+            </li>
+
+            <li>
+                <div class="objective">Adding Grouping support to our Character List</div>
+                <a href="./parts/part3.html">Exercise</a>
+                <br />
+                In this group exercise, we will add grouping support to the <code>ListView</code> so that the characters are grouped by the first letter of the name.
+            </li>
+
+            <li>
+                <div class="objective">Add a Quick Index</div>
+                <a href="./parts/part4.html">Exercise</a>
+                <br />
+                In this short exercise, you will turn on support for the "quick" jump index for iOS and Windows.
+            </li>
+
+            <li>
+                <div class="objective">Turn on recycle caching</div>
+                <a href="./parts/part5.html">Exercise</a>
+                <br />
+                In this final exercise, you will turn on the recycle caching strategy.
+            </li>
+
+        </ol>
+
+        <h2>Additional resources</h2>
+        <!--
+            <p>
+                Here are the <a target="_blank" href="https://university.xamarin.com/faq/XXXXX">Frequently Asked Questions</a> about ____________.
+            </p>
+         -->
+        <div class="wslist">
+            <a target="_blank" href="http://developer.xamarin.com/samples/WorkingWithListview/">Working with ListView</a>
+            <a href="http://blog.twintechs.com/how-to-achieve-native-list-performance-with-xamarin-forms-listview">Improving the performance of ListView</a>
+        </div>
+
+    </section>
+
+    <script src="./parts/res/js/jquery.min.js"></script>
+    <script src="./parts/res/js/prettify.js"></script>
+    <script src="./parts/res/js/script.js"></script>
+
+    <footer>Copyright (C) 2017 Xamarin<br><a target="_blank" href="http://university.xamarin.com">Visit Xamarin University for more classes and content</a></footer>
+</body>
+</html>

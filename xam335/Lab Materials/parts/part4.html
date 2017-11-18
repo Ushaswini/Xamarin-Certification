@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+    <title>Create a renderer for a custom control</title>
+    <link rel="stylesheet" type="text/css" href="./res/styles/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./res/styles/prettify.css" />
+    <link rel="stylesheet" type="text/css" href="./res/styles/styles.css">
+</head>
+
+<body>
+    <!-- Use the same title as the StartHere -->
+    <header>Xamarin.Forms Renderers</header>
+
+    <section id="main">
+
+        <h1 id="page-title"></h1>
+
+        <h2>Duration</h2>
+        <p>20 minutes</p>
+
+        <div class="hintblock">
+			<strong>Tip:</strong> If you are doing this exercise live in a session, make sure to make good use of the instructor,
+			they are online to answer any questions you have!
+		</div>
+
+        <h2>Goals</h2>
+
+        <p>
+            The primary goal of this lab is to create the platform-specific renderers that present the UI and behavior for the SketchView created in the previous exercise.
+
+            The provided <b>Assets</b> folder contains a custom control for each platform that will present a drawing surface, respond to pointer events and draw lines. 
+            Your job is to consume the custom control on each platform in a renderer.
+            <br><br>
+            This exercise includes steps for all platforms supported by Xamarin.Forms. 
+            You're not required to complete the steps for every platform but it's recommend you run the exercises on at least 2.
+        </p>
+
+        <img src="res/images/ex4_complete.png" alt=""  style='border:1px solid #999999'/></div>
+
+        <h2>Required assets</h2>
+        <p>
+            This exercise is a continuation of the previous exercise. You can use your existing solution or start from the <b>Completed</b> solution in the <b>Part 03 Resources</b> folder.
+            The provided <strong>Part 04 Resources</strong> folder contains a subfolder named <strong>Completed</strong> with a solution you can use to check your work. 
+            Please make sure you have this folder before you begin.
+        </p>
+
+        <!-- Give them a challenge here, high-level steps of what we want them to do
+             so they can use this instead of the step-by-step (baby steps) included below -->
+        <h2>Challenge</h2>
+            <ol>
+                <li>Add the appropriate <b>PaintView</b> control in the <b>Assets</b> folder to each head project. The <b>RT</b> version works in both the Windows and WinPhone projects.</li>
+                <li>In each platform-specific project, create a new class named <b>SketchViewRenderer</b>.</li>
+                <li>Update <b>SketchViewRenderer</b> to derive from the generic <b>ViewRenderer</b>. Set the View as <b>SketchView</b> and the NativeView as <b>PaintView</b>.</li>
+                <li>Override <code>OnElementChanged</code>.</li>
+                <li>In <code>OnElementChanged</code>, assign a new instance of <code>PaintView</code> if <code>Control</code> is <code>null</code>.</li>
+                <li>Use <code>ExportRenderer</code> to associate the renderer with <b>SketchView</b>.</li>
+                <li>Override <code>OnElementPropertyChanged</code> and watch for <b>InkColor</b> property changes.</li>
+                <li>Update the native <code>PaintView</code> control when the ink color is changed. </li>
+            </ol>
+        </p>
+
+        <!-- Steps -->
+        <h1>Steps</h1>
+
+        <h2>Add platform-specific custom controls</h2>
+        <p>Creating a configurable drawing control on each platform requires platform-specific knowledge. For simplicity, 
+            we've included the drawing code from the iOS and Android touch and gestures classes (IOS240 and AND240).  We've also provided similar code for the Windows platforms.
+            The provided classes need to be added to each head-project.
+        <ol>
+            <li>Open the provided <b>Assets</b> folder.</li>
+            <li>Add the appropriate <b>PaintView</b> class to each platform-specific project. The RT version should be added to both the <b>Windows</b> and <b>WinPhone</b> head projects.</li>
+            <li>Optionally - inspect the code on each platform. Notice that the <b>PaintView</b> class shares some similarities across all platforms:
+                <ul>
+                    <li>The class name is <b>PaintView</b></li>
+                    <li>There's a public method named <b>SetInkColor</b></li>
+                    <li>There's a public method named <b>Clear</b></li>
+                    <li>There's an event named <b>LineDrawn</b></li>
+                </ul>
+                We'll use these when we create the renderer on each platform.
+            </li>
+        
+        </ol>
+
+        <h2>Create the renderer on each platform</h2>
+        <p>We'll create the renderers to display the custom <b>PaintView</b> control on each platform.
+        Because we've designed the PaintView control to expose the same public methods on each platform, the steps for creating each renderer are very similar.
+        Keep in mind, this won't be true for all renderers.
+        <br><br>
+        Repeat the steps below for each platform in the platform specific projects. 
+        You'll need to add the platform specific using statements as you build the renderer.
+        <ol>
+            <li>Create a new class named <b>SketchViewRenderer</b>.</li>
+            <li>Update the signature to derive from <code>ViewRenderer</code>. The first type argument is the element; use <code>SketchView</code>. 
+            The second type element is the native control; use <code>PaintView</code>.</li>
+            <li>Add the <code>ExportRenderer</code> assembly attribute above the namespace declaration to connect the <code>SketchViewRenderer</code> to the <code>SketchView</code>.</li>
+<p><a href="#" onclick="toggleCode(this,'SketchView');return false;" class="uiitem">Show Code</a>
+<div id="SketchView" style="display:none;">
+<pre class="prettyprint">
+using XFDraw;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.[platform];
+using XFDraw.[platform];
+
+[assembly: ExportRenderer(typeof(SketchView), typeof(SketchViewRenderer))]
+namespace XFDraw.[platform]
+{
+    class SketchViewRenderer : ViewRenderer&lt;SketchView, PaintView>
+    {
+        
+    }
+}
+</pre></div></p>
+        </ol>
+
+        <h2>Create and set the native control</h2>
+        <ol>
+            <li>In each renderer, override <code>OnElementChanged</code>.</li>
+            <li>Create and instantiate a local <code>PaintView</code> instance named <b>paintView</b>. 
+            On Android you'll need to pass in the context: <code>Forms.Context</code>; on the other platforms the constructor takes no parameters.</li>
+            <li>Set the color on <b>paintView</b> using the <code>SetInkColor</code> method. 
+            You can reach the bindable <code>InkColor</code> property on <code>Element</code>. 
+            On Android and iOS, there are extension methods to convert the Xamarin.Forms color to a native color: <code>ToUIColor</code> and <code>ToAndroid</code>. On Windows you can add the method below to convert to a Xamarin.Forms <code>Color</code> to a <code>Windows.UI.Color</code>.
+            <pre class="prettyprint">
+Windows.UI.Color GetWindowsColor(Color color)
+{
+    return Windows.UI.Color.FromArgb((byte)(255 * color.A), (byte)(255 * color.R), (byte)(255 * color.G), (byte)(255 * color.B));
+}
+</pre>
+             </li>
+            <li>Assign <b>paintView</b> as the native control using the <code>SetNativeControl</code> method.</li>
+            <li>All of the above code should only be performed once. Surround the code in an <code>if</code> statement that only executes if <code>Control</code> is <code>null</code>.</li>
+            <li>Run the application, you should now be able to draw by dragging your finger.</li>
+<p><a href="#" onclick="toggleCode(this,'OnElementChanged');return false;" class="uiitem">Show Code</a>
+<div id="OnElementChanged" style="display:none;">
+<pre class="prettyprint">
+protected override void OnElementChanged(ElementChangedEventArgs<SketchView> e)
+{
+    base.OnElementChanged(e);
+
+    if (Control == null)
+    {
+        var paintView = new PaintView();
+        paintView.SetInkColor(GetWindowsColor(this.Element.InkColor));
+        SetNativeControl(paintView);
+    }
+}
+</pre></div></p>
+        </ol>
+
+        <h2>Respond to color property changes</h2>
+        <p>We want to ensure the native control is updated when properties are changed on the Xamarin.Forms element.
+        <ol>
+            <li>Override <code>OnElementPropertyChanged</code>.</li>
+            <li>The passed in <code>PropertyChangedEventArgs</code> has a <code>PropertyName</code> property which holds exactly what you'd expect: the name of the property on the element.
+            Compare this to the name of our <code>InkProperty</code>. You can do this is a type-safe manner by checking the static <code>SketchView.InkColorProperty.PropertyName</code>.</li>
+            <li>If the property name is correct, update the ink property on the native control using the <code>InkColor</code> property on the element.</li>
+<p><a href="#" onclick="toggleCode(this,'OnElementPropertyChanged');return false;" class="uiitem">Show Code</a>
+<div id="OnElementPropertyChanged" style="display:none;">
+<pre class="prettyprint">
+protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+{
+    base.OnElementPropertyChanged(sender, e);
+
+    if (e.PropertyName == SketchView.InkColorProperty.PropertyName)
+    {
+        Control.SetInkColor(GetWindowsColor(Element.InkColor));
+    }
+}
+</pre></div></p>
+           </ol>
+
+        <h2>Change the color property</h2>
+        <p>We'll trigger an ink color change from our UI.</p>
+        <ol>
+            <li>Open <b>MainPage.xaml.cs</b> in the shared project.</li>
+            <li>Set a new random color every time the "Color changed" button is pressed. The <b>OnColorClicked</b> method is already being called when the button is tapped, but the method body is empty.
+            Use the provided <code>GetRandomColor</code> method to assign a new color to <b>sketchView</b>'s <code>InkColor</code> property.</li>
+<p><a href="#" onclick="toggleCode(this,'OnColorClicked');return false;" class="uiitem">Show Code</a>
+<div id="OnColorClicked" style="display:none;">
+<pre class="prettyprint">
+void OnColorClicked ()
+{
+    sketchView.InkColor = GetRandomColor();
+}
+</pre></div></p>
+            <li>Optional: update the background of the Android floating action button when a new color is assigned.</li>
+            <pre class="prettyprint">
+actionButton.Click += (s, e) => {
+    OnColorClicked();
+    actionButton.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(sketchView.InkColor.ToAndroid());
+};
+</pre>
+            <li>Run the application. On Android, press the floating action button to change colors. On the other platforms, press the toolbar button.</li>
+        </ol>
+
+
+        <h1>Summary</h1>
+        <p>
+            In this exercise you created renderers that instantiate custom, platform specific controls for a custom defined Xamarin.Forms element. You also created and used a bindable property to update the renderers.
+        </p>
+        <div class="align-right">
+            <a href="../Start%20Here.html">Go Back</a>
+        </div>
+    </section>
+
+    <script src="./res/js/jquery.min.js"></script>
+    <script src="./res/js/prettify.js"></script>
+    <script src="./res/js/script.js"></script>
+
+    <footer>Copyright (C) 2017 Xamarin</footer>
+</body>
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+    <title>Send notifications to the renderer and the element</title>
+    <link rel="stylesheet" type="text/css" href="./res/styles/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./res/styles/prettify.css" />
+    <link rel="stylesheet" type="text/css" href="./res/styles/styles.css">
+</head>
+
+<body>
+    <!-- Use the same title as the StartHere -->
+    <header>Xamarin.Forms Renderers</header>
+
+    <section id="main">
+
+        <h1 id="page-title"></h1>
+
+        <h2>Duration</h2>
+        <p>20 minutes</p>
+
+        <div class="hintblock">
+			<strong>Tip:</strong> If you are doing this exercise live in a session, make sure to make good use of the instructor,
+			they are online to answer any questions you have!
+		</div>
+
+        <h2>Goals</h2>
+
+        <p>
+            The primary goal of this lab is to send and receive notifications to and from the shared code and the platform-specific renderers without tightly coupling the element and the renderer.
+            Specifically, we'll notify the platform-specific code to clear the drawing surface from the shared UI and we'll notify the shared code when the drawing surface is updated.
+            <br><br>
+            This exercise includes steps for all platforms supported by Xamarin.Forms. 
+            You're not required to complete the steps for every platform but it's recommend you run the exercises on at least two.
+        </p>
+
+        <img src="res/images/ex4_complete.png" width="320" alt="" style='border:1px solid #999999'/></div>
+
+        <h2>Required assets</h2>
+        <p>
+            This exercise is a continuation of the previous exercise. You can use your existing solution or start from the <b>Completed</b> solution in the <b>Part 04 Resources</b> folder.
+            The provided <strong>Part 05 Resources</strong> folder contains a subfolder named <strong>Completed</strong> with a solution you can use to check your work. 
+            Please make sure you have this folder before you begin.
+        </p>
+
+        <!-- Give them a challenge here, high-level steps of what we want them to do
+             so they can use this instead of the step-by-step (baby steps) included below -->
+        <h2>Challenge</h2>
+            <ol>
+                <li>Open <b>SketchView.cs</b> in the shared project and add a public <b>Clear</b> method.</li>
+                <li>Open <b>MainPage.xaml.cs</b> and call <b>sketchView.Clear</b> from the <b>OnClearClicked</b> method.</li>
+                <li>Return to <b>SketchView.cs</b> and use the <b>MessagingCenter</b> to send a message with the text <b>Clear</b> when the Clear method is called.</li>
+                <li>In each head project, subscribe to the <b>Clear</b> message in <b>SketchViewRenderer</b>. When the message is received, call  the <code>Clear</code> method on the native paint view.</li>
+                <li>Run the application and press the clear toolbar button to reset the drawing surface.</li>
+                <li>In the <b>XFDraw</b> shared project, create a new interface named <b>ISketchController</b> and add a single <code>void</code> method named <b>SendSketchUpdated</b>.</li>
+                <li>Open <b>SketchView.cs</b> and create an <code>EventHandler</code> named <b>SketchUpdated</b>.</li>
+                <li>Explicitly implement <code>ISketchController</code> on <code>SketchView</code> and invoke the <code>SketchUpdated</code> event when <code>SendSketchUpdated</code> is called.</li>
+                <li>In each head project, subscribe to the native <b>paintView</b>'s <code>LineDrawn</code> <code>EventHandler</code>. When raised, cast <code>Element</code> to an <code>ISketchController</code> and call it's <code>SendSketchUpdate</code> method.</code> 
+                <li>Return to <b>MainPage.xaml.cs</b>. Using a <code>Command</code> disable the clear button when the drawing surface is blank and enable when any drawing is present.</li>
+            </ol>
+        </p>
+
+
+        <!-- Steps -->
+        <h1>Steps</h1>
+
+        <h2>Send a message from the element</h2>
+        <p>We want to clear our drawing surface when the user taps the clear/delete button. 
+            However, we don't want to hold a reference from the element to the renderer, so we'll send a notification using the built-in Messaging Center.
+        <ol>
+            <li>Open <b>SketchView.cs</b> in the shared project.</li>
+            <li>Create a public method named <b>Clear</b>.</li>
+            <li>Call <code>MessagingCenter.Send</code>, with a message of "Clear".</li>
+<p><a href="#" onclick="toggleCode(this,'Clear');return false;" class="uiitem">Show Code</a>
+<div id="Clear" style="display:none;">
+<pre class="prettyprint">
+public void Clear ()
+{
+    MessagingCenter.Send(this, "Clear");
+}
+</pre></div></p>
+            <li>Open <b>MainPage.xaml.cs</b>.</li>
+            <li>In the <code>OnClearClicked</code> method, call the new <code>Clear</code> method on <b>sketchView</b>.</li>
+        </ol>
+
+        <h2>Subscribe to the message in the renderer</h2>
+        <p>The following steps should be performed in each platform-specific project you wish to support.</p>
+        <ol>
+            <li>Open <b>SketchViewRenderer.cs</b></li>
+            <li>Create a new <code>void</code> method named <b>OnMessageClear</b> that accepts a <code>SketchView</code> parameter named <b>sender</b>. This method will be called when the clear message is received.</li>
+            <li>We want to ensure we only respond to messages from the element associated to this instance of the renderer. Check if <b>sender</b> matches <code>Element</code>. 
+            If it does, call the <code>Clear</code> method on <b>Control</b>.</li>
+<p><a href="#" onclick="toggleCode(this,'OnMessageClear');return false;" class="uiitem">Show Code</a>
+<div id="OnMessageClear" style="display:none;">
+<pre class="prettyprint">
+void OnMessageClear(SketchView sender)
+{
+    if (sender == Element)
+        Control.Clear();
+}
+</pre></div></p>
+            <li>Go to the <code>OnElementChanged</code> method.</li>
+            <li>After the native control is assigned, call <code>MessagingCenter.Subscribe</code> to subscribe to the clear message and set <code>OnMessageClear</code> to the <code>Action</code> callback.</li>
+            <li>To clean up after ourselves, override <code>Dispose</code> and <code>Unsubscribe</code> from these messages.
+            <li>Run the application, draw, and then tap the clear button.</li>
+<p><a href="#" onclick="toggleCode(this,'Subscribe');return false;" class="uiitem">Show Code</a>
+<div id="Subscribe" style="display:none;">
+<pre class="prettyprint">
+protected override void OnElementChanged(ElementChangedEventArgs<SketchView> e)
+{
+    if (Control == null)
+    {
+        ...
+        MessagingCenter.Subscribe&lt;SketchView&gt;(this, "Clear", OnMessageClear);
+    }
+}
+
+protected override void Dispose(bool disposing)
+{
+    if (disposing)
+    {
+        MessagingCenter.Unsubscribe&lt;SketchView&gt;(this, "Clear");
+    }
+
+    base.Dispose(disposing);
+}
+</pre></div></p>
+        </ol>
+
+        <h2>Create a controller interface</h2>
+        <p>Next we're going to send a notifcation from the plaform-specific renderers to the Xamarin.Forms sketch view element. 
+            To do this we're going to add a public method on the element. However we only want to raise it from the renderer.
+            To reduce discoverability, we're going to define the method within an interface and explicitly implement it.
+        <ol>
+            <li>In the <b>XFDraw</b> shared project, create a new interface named <b>ISketchController</b>.</li>
+            <li>Add a <code>void</code> method named <b>SendSketchUpdated</b> that accepts no arguments.</li>
+<p><a href="#" onclick="toggleCode(this,'ISketchController');return false;" class="uiitem">Show Code</a>
+<div id="ISketchController" style="display:none;">
+<pre class="prettyprint">
+public interface ISketchController
+{
+    void SendSketchUpdated();
+}
+</pre></div></p>
+        </ol>
+
+        <h2>Implement the controller interface</h2>
+        <p>To notify the shared code, we'll create and raise a public event.
+        <ol>
+            <li>Open <b>SketchView.cs</b> in the shared project.</li>
+            <li>Explicitly implement <code>ISketchController</code>.</li>
+            <li>Add a new public event handler named <b>SketchUpdated</b>.</li>
+            <li>In the <code>SendSketchUpdated</code>, invoke the <b>SketchUpdated</b> event.</li>
+<p><a href="#" onclick="toggleCode(this,'SketchView');return false;" class="uiitem">Show Code</a>
+<div id="SketchView" style="display:none;">
+<pre class="prettyprint">
+class SketchView : View, ISketchController
+{
+    ...
+    public event EventHandler SketchUpdated;
+
+    void ISketchController.SendSketchUpdated()
+    {
+        if(SketchUpdated != null)
+            SketchUpdated(this, EventArgs.Empty);
+    }
+}
+</pre></div></p>
+        </ol>
+
+        <h2>Notify the element</h2>
+        <p>The following steps should be completed in each platform-specific project.
+        <ol>
+            <li>Open <b>SketchViewRender.cs</b> and find the <code>OnElementChanged</code> method.</li>
+            <li>When the native control has been instantiated, subscribe to its <code>LineDrawn</code> event; create a handler method named <b>PaintViewLineDrawn</b>.
+            <li>
+                In the <code>PaintViewLineDrawn</code> handler method, cast <code>Element</code> to <code>ISketchController</code> and call the explicitly defined <code>SendSketchUpdated</code> method.</li>
+            </li>
+<p><a href="#" onclick="toggleCode(this,'OnElementChanged');return false;" class="uiitem">Show Code</a>
+<div id="OnElementChanged" style="display:none;">
+<pre class="prettyprint">
+protected override void OnElementChanged(ElementChangedEventArgs<SketchView> e)
+{
+    ...
+    paintView.LineDrawn += PaintViewLineDrawn;
+}
+
+private void PaintViewLineDrawn(object sender, System.EventArgs e)
+{
+    var sketchCon = (ISketchController)Element;
+    
+    if (sketchCon == null)
+        return;
+    
+    sketchCon.SendSketchUpdated();
+}
+
+</pre></div></p>
+        </ol>
+
+        <h2>Subscribe to the event</h2>
+        <p>The final step is to subscribe to the event on the SketchView in the shared code.
+            We'll use the event to disable the clear button if the drawing surface is blank. 
+            To control the enabled state of the <code>ToolbarItem</code>, we need to use a <code>Command</code>.
+            If you're familar with commands you can implement this on your own, or use the code provided.
+            Add the code below to <b>MainPage.xaml.cs</b> in the shared project:
+            <ol>
+                <li>Create a boolean property named <b>IsCanvasDirty</b> with a backing field to track the state of the canvas. Define the command and call <code>ChangeCanExcute</code> on the command when the <b>IsCanvasDirty</b> property is updated.
+            <pre class="prettyprint">
+public partial class MainPage : ContentPage
+{
+    bool IsCanvasDirty
+    {
+        get { return isCanvasDirty; }
+        set
+        {
+            isCanvasDirty = value;
+
+            if (clearCommand != null)
+                clearCommand.ChangeCanExecute();
+        }
+    }
+    bool isCanvasDirty;
+
+    Command clearCommand;
+    ...
+}
+</pre></div></p></li>
+
+        <li>Subscribe to the <code>SketchUpdated</code> event and instantiate <b>clearCommand</b>. Assign the new command to the <b>trash</b> tool bar item. 
+	The command is replacing the event handler; delete the <code>Clicked</code> subscription.
+            <pre class="prettyprint">
+public MainPage()
+{
+    ...
+    sketchView.SketchUpdated += OnSketchUpdated;
+
+    clearCommand = new Command(OnClearClicked, () => { return IsCanvasDirty; });
+
+    var trash = new ToolbarItem()
+    {
+        Text = "Clear",
+        Icon = "trash.png",
+        Command = clearCommand
+    };
+</pre></div></p></li>
+        
+        <li>In the constructor, subscribe to <b>sketchView</b>'s <code>SketchUpdated</code> event with an event handler method named <b>OnSketchUpdated</b>.
+When <code>OnSketchUpdated</code> is called, set <b>IsCanvasDirty</b> to <code>true</code>.
+        When <code>OnClearClicked</code> is called, call <code>sketchView.Clear</code> and set <b>IsCanvasDirty</b> to <code>false</code>.
+            <pre class="prettyprint">
+public MainPage()
+{
+   ...
+   sketchView.SketchUpdated += OnSketchUpdated;
+}
+
+void OnSketchUpdated(object sender, EventArgs e)
+{
+    IsCanvasDirty = true;
+}
+
+void OnClearClicked ()
+{
+    sketchView.Clear();
+    IsCanvasDirty = false;
+}
+</pre></div></p>
+        <li>Run the application.</li>
+        </ol>
+
+        <h1>Summary</h1>
+        <p>
+            In this exercise you sent notifications between the shared element and platform-specific renderers without tightly coupling the renderer instance to the element.
+        </p>
+        <div class="align-right">
+            <a href="../Start%20Here.html">Go Back</a>
+        </div>
+    </section>
+
+    <script src="./res/js/jquery.min.js"></script>
+    <script src="./res/js/prettify.js"></script>
+    <script src="./res/js/script.js"></script>
+
+    <footer>Copyright (C) 2017 Xamarin</footer>
+</body>
+</html>

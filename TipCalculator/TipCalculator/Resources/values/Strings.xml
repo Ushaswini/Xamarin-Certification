@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="btnCalStr">Calculate</string>
+    <string name="ApplicationName">TipCalculator</string>
+  <string name="tvTipStr">Tip:</string>
+  <string name="tvTotalStr">Total:</string>
+</resources>

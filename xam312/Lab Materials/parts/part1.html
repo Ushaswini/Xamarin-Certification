@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+    <title>Exercise 1: Providing a custom cell template for our ListView</title>
+    <link rel="stylesheet" type="text/css" href="./res/styles/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./res/styles/prettify.css" />
+    <link rel="stylesheet" type="text/css" href="./res/styles/styles.css">
+</head>
+
+<body>
+    <!-- Use the same title as the StartHere -->
+    <header>Customizing the ListView in Xamarin.Forms</header>
+
+    <section id="main">
+        <h1 id="page-title"></h1>
+        <h2>Duration</h2>
+        <p>25 minutes</p>
+
+        <h2>Goals</h2>
+        <p>
+            This exercise will modify an existing application that is using an <code>ImageCell</code> and replace it with a custom <code>ViewCell</code> template which displays additional information and provides some formatting.
+        </p>
+
+<p class="indent-medium">
+<a href="#" onclick="toggleBlock(this, 'whatis_viewcell', 'What is a ViewCell?', 'Hide'); return false;" class="uiitem">What is a ViewCell?</a>
+<div class="indent-medium wsblock" id="whatis_viewcell" style="display:none;">
+    <!-- Each item is in a div "wsitem" -->
+    <div class="wsitem">
+        <!-- Give it a title and description -->
+        <b>What is a ViewCell?</b>
+        <p>
+            The built-in cell types will handle most scenarios, but if you want to completely control the layout or visuals, you can define your own custom cells. You can do this with the <a href="http://iosapi.xamarin.com/?link=T%3aXamarin.Forms.ViewCell">ViewCell</a> type. This allows you to define a custom view with any visual element, or set of elements in a layout container to display your information.
+        </p>
+        <p>
+            As with the other <code>Cell</code> types, the <code>BindingContext</code> will be a single item in the data source and you utilize data bindings to display the data.
+        </p>
+        <p>
+            When using a custom view cell, you will sometimes need to adjust the <a href="http://iosapi.xamarin.com/?link=P%3aXamarin.Forms.ListView.RowHeight">RowHeight</a> property of the <code>ListView</code> to make sure there is enough space to fit your custom visualization.
+        </p>        
+    </div>
+</div>
+</p>        
+        <h2>Required Assets</h2>
+        <p>
+            There is a starter application in the <b>Part 01 Resources</b> folder. This is the project you will work with throughout most of this class. There is also a completed version of this exercise in the same folder for you to compare your work against.
+        </p>
+
+        <h2>Challenge</h2>
+        <p>
+            This exercise replaces an <code>ImageCell</code> definition with a <code>ViewCell</code> definition, allowing you to reposition the content, change the font sizes and add in new visuals not available in the stock cell types. You will define a cell style which looks like:
+        </p>
+        
+        <img src="./res/images/stars.png" />
+        
+        <p>Here are the steps you will go through:</p>
+        <ol class="indent-large">
+            <li>
+                Replace the existing <code>ImageCell</code> with a <code>ViewCell</code>.
+            </li>
+
+            <li>
+                You will want to keep the current <code>MenuItem</code> added to the <code>ContextActions</code> collection on the <code>ImageCell</code>.
+            </li>
+            
+            <li>
+                Add a <code>Grid</code> into the <code>ViewCell</code> with 4 columns:
+                <ul class="indent-none">
+                    <li>75px to hold an image.</li>
+                    <li>Star-sized for the Name and Email.</li>
+                    <li>Auto-sized for a "Favorites" star image.</li>
+                    <li>5px for a padding on the right side.</li>
+                </ul>
+            </li>
+            <li>
+                Display the <code>HeadshotUrl</code> with an <code>Image</code> in the first column.
+                <ul class="indent-none">
+                    <li>
+                    You will need the same value converter used in the current <code>ImageCell</code> to handle the embedded resource.
+                    </li>
+                    <li>The size should be set to 75x75 so they image always fits the area.</li>
+                    <li>Set the <code>Aspect</code> property to "AspectFit".</li>
+                </ul>
+            </li>
+
+            <li>
+                Use a <code>StackLayout</code> in the second column to display two <code>Label</code>s for the <code>Name</code> and <code>Email</code> properties.
+                <ul class="indent-none">
+                    <li>The name should have a Bold, Medium-sized font.</li>
+                    <li>The email should have a Small font.</li>
+                </ul>
+            </li>
+            <li>
+                Next, add a <code>Image</code> into the third column with the <code>IsVisible</code> property data bound to the <code>IsFavorite</code> property so it shows only when the character is marked as a favorite.
+                <ul class="indent-none">
+                    <li>It should be centered vertically and placed on the right side horizontally.</li>
+                    <li>The image itself is already in each of the platform-specific projects, so just use "star.png" as the <code>ImageSource</code>.</li>
+                </ul>
+            </li>
+
+            <li>
+                Finally, add a <code>Label</code> to display how old the character is according to the <code>Dob</code> property. This will require a new <code>IValueConverter</code> to calculate the age. It should be placed in the second column and marked to span columns two and three and positioned on the right side (under the image) as you can see from the screen shot.
+            </li>
+        </ol>
+        
+        <p>
+        Try to complete the exercise using the above screenshot and instructions, and then use the detailed information below if you get stuck or need some additional information to complete the step.
+        </p>
+        
+        <h1>Steps</h1>
+        <h2>Replace the <code>ImageCell</code> with a <code>ViewCell</code></h2>
+        <p>
+            In this first step, we will remove the <code>ImageCell</code> used in the last exercise and replace it with a <code>ViewCell</code> which allows us to define the row visualization however we like. We will start with the headshot, name and email.
+        </p>
+        <ol>
+            <li>
+                Open the <strong>AllContacts.xaml</strong> markup file and locate the <code>ImageCell</code> inside the <code>DataTemplate</code> definition.
+            </li>
+            
+            <li>
+                Copy the Binding used for the <code>ImageSource</code> property - you will need that in a moment.
+            </li>
+
+            <li>
+                Also, copy off the <code>ImageCell.ContextActions</code> property settings - it should have a single <code>MenuItem</code> assigned to it. This provides the swip to delete UI which we will want in our new cell as well.
+            </li>
+            
+            <li>Replace the entire <code>ImageCell</code> with a <code>ViewCell</code> definition.</li>
+            <li>Inside the <code>ViewCell</code>, add a <code>Grid</code> and add three columns to it:
+                <ul class="indent-none">
+                    <li><code>&lt;ColumnDefinition Width="75" /></code></li>
+                    <li><code>&lt;ColumnDefinition Width="*" /></code></li>
+                    <li><code>&lt;ColumnDefinition Width="Auto" /></code></li>
+                </ul>
+            </li>
+
+            <li>In the first column, add an <code>Image</code> and data bind the <code>Source</code> property to the <code>HeadshotUrl</code> property of the <code>Person</code>.
+                <ul class="indent-none">
+                    <li>Set the <code>WidthRequest</code> and <code>HeightRequest</code> properties to "75".</li>
+                    <li>Set the <code>Aspect</code> property to "AspectFit" so the image looks correct.</li>
+                    <li>Center the image vertically through the <code>VerticalOptions</code> property.</li>
+                </ul>
+            </li>
+
+            <li>In the second column, add a <code>StackLayout</code>.</li>
+
+            <li>In the <code>StackLayout</code>, add a <code>Label</code> to display the name.
+                <ul class="indent-none">
+                    <li>Bind the <code>Text</code> property to the <code>Name</code> property.</li>
+                    <li>Set the <code>FontSize</code> property to "Medium"</li>
+                    <li>Set the <code>FontAttributes</code> property to "Bold"</li>
+                </ul>
+            </li>
+            <li>Add a second <code>Label</code> to the <code>StackLayout</code> for the email address.
+                <ul class="indent-none">
+                    <li>Bind the <code>Text</code> property to the <code>Email</code> property.</li>
+                    <li>Set the <code>FontSize</code> property to "Small"</li>
+                    <li>Set the <code>TextColor</code> property to "Accent" to get a reasonable secondary color.</li>
+                </ul>
+            </li>
+
+            <li>
+                Finally, add the <code>ContextActions</code> onto the <code>ViewCell</code>
+            </li>
+        </ol>
+<p><a href="#" onclick="toggleCode(this,'listview1');return false;" class="uiitem">Show Code</a>
+<div class="indent-medium" id="listview1" style="display:none;">
+<pre class="prettyprint">
+&lt;ListView x:Name="allContacts" IsPullToRefreshEnabled="True"
+            Refreshing="OnRefreshing"
+            ItemTapped="OnItemTapped"
+            ItemSelected="OnItemSelected">
+    &lt;ListView.ItemTemplate>
+      &lt;DataTemplate>
+        <span class="highlight">&lt;ViewCell>
+            &lt;Grid>
+                &lt;Grid.ColumnDefinitions>
+                    &lt;ColumnDefinition Width="75" />
+                    &lt;ColumnDefinition Width="*" />
+                    &lt;ColumnDefinition Width="Auto" />
+                &lt;/Grid.ColumnDefinitions>
+                &lt;Image WidthRequest="75" Aspect="AspectFit"
+                        Source="{Binding HeadshotUrl, Converter={StaticResource imageResourceCvt}}" />
+                &lt;StackLayout Grid.Column="1">
+                    &lt;Label Text="{Binding Name}" 
+                          FontSize="Medium" FontAttributes="Bold" />
+                    &lt;Label Text="{Binding Email}" 
+                          FontSize="Small" TextColor="Accent" />
+                &lt;/StackLayout>
+            &lt;/Grid>
+            &lt;ViewCell.ContextActions>
+                &lt;MenuItem Text="Delete" Clicked="OnDelete" IsDestructive="true" />
+           &lt;/ViewCell.ContextActions>            
+        &lt;/ViewCell></span>
+      &lt;/DataTemplate>
+    &lt;/ListView.ItemTemplate>
+  &lt;/ListView>
+</pre></div>
+        </p>
+        <ol start="9">
+            <li>
+                Run the application to see the results. Xamarin.Forms will auto-size all the rows to the largest row in the data set. But it will look a bit squished, so set the <code>RowHeight</code> on the <code>ListView</code> to be "80" to give it a little more space.
+            </li>
+            <li>
+                Set the <code>VerticalOptions</code> on the <code>StackLayout</code> to "Center" so the text content is centered within the cell.
+            </li>
+        </ol>
+
+        <img src="./res/images/viewcell-3.png" />
+
+        <h2>Add dynamic content to the <code>ViewCell</code></h2>
+        <p>
+            In this next step, we are going to display a "favorites" icon next to each of the characters that have the <code>IsFavorite</code> property set. We will use an existing icon that's already in the platform-specific projects - <strong>star.png</strong>.
+        </p>
+        <ol>
+            <li>Add an <code>Image</code> to the third column in the <code>Grid</code>
+                <ul class="indent-none">
+                    <li>Set the <code>Source</code> property to "star.png"</li>
+                    <li>Set the <code>Grid.Column</code> property to "2"</li>
+                    <li>Set the <code>VerticalOptions</code> to "Center"</li>
+                    <li>Set the <code>HorizontalOptions</code> to "End" to right-align the icon.</li>
+                    <li>Databind the <code>IsFavorite</code> property to the image's <code>IsVisible</code> property. Since they are both <code>bool</code> types, there is no conversion necessary.</li>
+                </ul>
+            </li>
+        </ol>
+        <p><a href="#" onclick="toggleCode(this,'listview2');return false;" class="uiitem">Show Code</a>
+            <div class="indent-medium" id="listview2" style="display:none;">
+                <pre class="prettyprint">
+&lt;Image IsVisible="{Binding IsFavorite}" Grid.Column="2"
+          VerticalOptions="Center"
+          HorizontalOptions="End" Source="star.png" />
+</pre></div>
+        </p>
+        <ol start="2">
+            <li>Run the application and verify that the icon is displayed on the right side when the character is marked as a favorite. Try changing the flag by editing the details and navigating back to the list.</li>
+        </ol>
+        <img src="./res/images/stars-first.png" />
+        <h2>Add an extra field for Age</h2>
+        <p>
+            In this final step, we'll add a new <code>Label</code> to display how old the character is. We will need to write a Value Converter to take the <code>Person.Dob</code> property and turn it into an age.
+        </p>
+        <ol>
+            <li>Add a <code>Label</code> after the <code>Image</code>.
+                <ul class="indent-none">
+                    <li>Set the <code>Grid.Column</code> to "1" and the <code>Grid.ColumnSpan</code> to "2" so the label spans the final two columns.</li>
+                    <li>Set the <code>HorizontalOptions</code> to "End" so it's positioned at the right edge.</li>
+                    <li>Set the <code>VerticalOptions</code> to "End" to it's positioned at the bottom.</li>
+                    <li>Set the <code>FontSize</code> to "Micro to make it smaller than the email address.</li>
+                    <li>Set the <code>TextColor</code> to "Accent" so it matches the email address.</li>
+                    <li>Finally, data bind the <code>Text</code> property to the <code>Person.Dob</code> property.</li>
+                </ul>
+            </li>
+            <li>Next, since the <code>Dob</code> is not a <code>string</code>, and is not the age we want, we will need a converter to get the correct data. Add a new source file to the <strong>Converters</strong> folder named <strong>BirthdayConverter</strong>.</li>
+            <li>Implement the <code>IValueConverter</code> interface - you will only need to provide an implementation for the <code>Convert</code> method since we won't be using this in a two-way binding.</li>
+            <li>Copy the logic below to take the <code>DateTime</code> input and turn it into an age in years (integer). 
+                <ul class="indent-none">
+                    <li>The inbound <code>value</code> parameter will be a <code>DateTime</code>.</li>
+                    <li>You should return the age as an integer.</li>
+                </ul>
+            </li>
+        </ol>
+        <p>
+                <pre class="prettyprint">
+public class BirthdayConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, 
+                          object parameter, CultureInfo culture)
+    {
+        DateTime bday = (DateTime)value;
+        DateTime today = DateTime.Today;
+        int age = today.Year - bday.Year;
+        return (bday > today.AddYears(-age)) ? age-1 : age;
+    }
+
+    public object ConvertBack(object value, Type targetType, 
+                              object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+</pre>
+        </p>
+        <ol start="5">
+            <li>Add an instance of <code>BirthdayConverter</code> into your <code>ResourceDictionary</code>.</li>
+            <li>Apply the converter to your <code>Label</code> binding. Use the <code>StringFormat</code> property of the Binding to display the returned integer with the suffix "yrs. old".</li>
+        </ol>
+        <p><a href="#" onclick="toggleCode(this,'lastLabel');return false;" class="uiitem">Show Code</a>
+            <div class="indent-medium" id="lastLabel" style="display:none;">
+                <pre class="prettyprint">
+&lt;Label Text="{Binding Dob, 
+                 Converter={StaticResource birthdayCvt}, 
+                 StringFormat='{0} yrs. old'}" 
+        HorizontalOptions="End" VerticalOptions="End"
+        Grid.Column="1" Grid.ColumnSpan="2"
+        FontSize="Micro" TextColor="Accent" /> 
+</pre></div>
+        </p>
+        <ol start="7">
+            <li>Run the application and verify it shows the age of the character in the bottom right of the cell. It should look something like the following screen:</li>
+        </ol>
+        <img src="./res/images/stars.png" />
+        <h1>Summary</h1>
+        <p>
+            In this exercise, we customized a <code>ListView</code> using a <code>DataTemplate</code> and data binding. This is incredibly easy to take advantage of. Keep in mind there are built-in cells you can use, and if your design fits one of these, you should prefer to use them because they are slightly more efficient than the <code>ViewCell</code> alternative.
+        </p>
+        <div class="align-right">
+            <a href="../Start%20Here.html">Go Back</a>
+        </div>
+    </section>
+
+    <script src="./res/js/jquery.min.js"></script>
+    <script src="./res/js/prettify.js"></script>
+    <script src="./res/js/script.js"></script>
+
+    <footer>Copyright (C) 2017 Xamarin</footer>
+</body>
+</html>

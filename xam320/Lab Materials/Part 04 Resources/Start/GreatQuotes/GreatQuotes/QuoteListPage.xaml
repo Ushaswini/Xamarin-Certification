@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+		xmlns="http://xamarin.com/schemas/2014/forms"
+		xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+		xmlns:infrastructure="clr-namespace:XamarinUniversity.Infrastructure;assembly=XamU.Infrastructure"
+		xmlns:viewModels="clr-namespace:GreatQuotes.ViewModels;assembly=GreatQuotes"
+		x:Class="GreatQuotes.QuoteListPage" 
+		Title="Quotes" Icon = "ic_action_chat.png"
+    x:Name="RootPage"
+    BindingContext="{infrastructure:DependencyService Type={x:Type viewModels:MainViewModel}}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ItemTappedValueConverter xmlns="clr-namespace:GreatQuotes.Converters;assembly=GreatQuotes" x:Key="itemTappedConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+		<ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Icon="ic_action_new.png" Command="{Binding AddQuote}"/>
+		</ContentPage.ToolbarItems>
+
+		<ListView ItemsSource="{Binding Quotes}" 
+			    SeparatorColor="#c0c0c0"
+				SelectedItem="{Binding SelectedQuote, Mode=TwoWay}"
+				>
+        <ListView.Behaviors>
+            <infrastructure:EventToCommandBehavior EventName="ItemTapped" Command="{Binding ShowQuoteDetail}" EventArgsConverter="{StaticResource itemTappedConverter}"/>
+
+
+        </ListView.Behaviors>
+			<ListView.ItemTemplate>
+			    <DataTemplate>
+    				<TextCell Text="{Binding QuoteText}"
+    								Detail="{Binding Author}" 
+    								DetailColor="{Binding Gender, Converter={StaticResource genderToColorConverter}}">
+    						<TextCell.ContextActions>
+    								<MenuItem Text="Edit" Command="{Binding BindingContext.EditQuote, Source={x:Reference RootPage}}" />
+    								<MenuItem Text="Delete" IsDestructive="True" Command="{Binding BindingContext.DeleteQuote,Source={x:Reference RootPage} }" />
+    						</TextCell.ContextActions>
+    				</TextCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+
+</ContentPage>

@@ -1,0 +1,1002 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>XamU.Core</name>
+    </assembly>
+    <members>
+        <member name="T:XamarinUniversity.Collections.GroupedObservableCollection`2">
+             <summary>
+             This is a simple observable collection which has a GroupBy key which can
+             be used to populate a ListView with grouping turned on
+             </summary>
+             <typeparam name="TKey">The type to use for the grouping key</typeparam>
+             <typeparam name="TValue">The type to use for the items</typeparam>
+            </member>
+        <member name="P:XamarinUniversity.Collections.GroupedObservableCollection`2.Key">
+             <summary>
+             The read-only grouping key.
+             </summary>
+             <value>The group title.</value>
+            </member>
+        <member name="P:XamarinUniversity.Collections.GroupedObservableCollection`2.HasItems">
+             <summary>
+             Simple property to allow us to collapse a group when it has no items.
+             </summary>
+             <value><c>true</c> if has items; otherwise, <c>false</c>.</value>
+            </member>
+        <member name="M:XamarinUniversity.Collections.GroupedObservableCollection`2.#ctor(`0)">
+             <summary>
+             Initializes a grouped collection.
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Collections.GroupedObservableCollection`2.#ctor(`0,System.Collections.Generic.IEnumerable{`1})">
+             <summary>
+             Initializes the grouped collection with a set of items.
+             </summary>
+             <param name="key">Grouping key value</param>
+             <param name="items">Set of items for this group</param>
+            </member>
+        <member name="M:XamarinUniversity.Collections.GroupedObservableCollection`2.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs)">
+             <summary>
+             Handles the PropertyChanged notification. We use this to catch changes
+             to the Count and then update the <see cref="P:XamarinUniversity.Collections.GroupedObservableCollection{`0,`1}.HasItems" /> property.
+             </summary>
+             <param name="e">EventArgs</param>
+            </member>
+        <member name="T:XamarinUniversity.Infrastructure.ObservableDictionary`2">
+            <summary>
+             This is a Dictionary that supports INotifyCollectionChanged semantics. 
+            </summary>
+             <remarks>
+             WARNING: this dictionary is NOT thread-safe!  You must still
+             provide synchronization to ensure no writes are done while the dictionary is being
+             enumerated!  This should not be a problem for most bindings as they rely on the 
+             CollectionChanged information.
+             </remarks>
+            <typeparam name="TKey">Key</typeparam>
+            <typeparam name="TValue">Value type</typeparam>
+            </member>
+        <member name="E:XamarinUniversity.Infrastructure.ObservableDictionary`2.CollectionChanged">
+             <summary>
+             Event raised for collection change notification
+             </summary>
+            </member>
+        <member name="E:XamarinUniversity.Infrastructure.ObservableDictionary`2.PropertyChanged">
+             <summary>
+             Event raise for property changes.
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.ObservableDictionary`2.#ctor">
+             <summary>
+             Constructor
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.ObservableDictionary`2.#ctor(System.Collections.Generic.IDictionary{`0,`1})">
+             <summary>
+             Constructor that allows different storage initialization
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.ObservableDictionary`2.#ctor(System.Collections.Generic.IEqualityComparer{`0})">
+             <summary>
+             Constructor that takes an equality comparer
+             </summary>
+             <param name="comparer">Comparison class</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.ObservableDictionary`2.BeginMassUpdate">
+             <summary>
+             This method turns off notifications until the returned object
+             is Disposed. At that point, the entire dictionary is invalidated.
+             </summary>
+             <returns>IDisposable</returns>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.ObservableDictionary`2.Add(`0,`1)">
+             <summary>
+             Adds an element with the provided key and value to the <see cref="T:System.Collections.Generic.IDictionary`2" />.
+             </summary>
+             <param name="key">The object to use as the key of the element to add.
+             </param><param name="value">The object to use as the value of the element to add.
+             </param><exception cref="T:System.ArgumentNullException"><paramref name="key" /> is null.
+             </exception><exception cref="T:System.ArgumentException">An element with the same key already exists in the <see cref="T:System.Collections.Generic.IDictionary`2" />.
+             </exception><exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.IDictionary`2" /> is read-only.
+             </exception>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.ObservableDictionary`2.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{TKey,TValue}}#Add(System.Collections.Generic.KeyValuePair{`0,`1})">
+             <summary>
+             Adds an item to the <see cref="T:System.Collections.Generic.ICollection`1" />.
+             </summary>
+             <param name="item">The object to add to the <see cref="T:System.Collections.Generic.ICollection`1" />.
+             </param><exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1" /> is read-only.
+             </exception>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.ObservableDictionary`2.Clear">
+             <summary>
+             Removes all items from the <see cref="T:System.Collections.Generic.ICollection`1" />.
+             </summary>
+             <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1" /> is read-only. 
+             </exception>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.ObservableDictionary`2.ContainsKey(`0)">
+             <summary>
+             Determines whether the <see cref="T:System.Collections.Generic.IDictionary`2" /> contains an element with the specified key.
+             </summary>
+             <returns>
+             true if the <see cref="T:System.Collections.Generic.IDictionary`2" /> contains an element with the key; otherwise, false.
+             </returns>
+             <param name="key">The key to locate in the <see cref="T:System.Collections.Generic.IDictionary`2" />.
+             </param><exception cref="T:System.ArgumentNullException"><paramref name="key" /> is null.
+             </exception>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.ObservableDictionary`2.CopyTo(System.Collections.Generic.KeyValuePair{`0,`1}[],System.Int32)">
+             <summary>
+             Copies the elements of the <see cref="T:System.Collections.Generic.ICollection`1" /> to an <see cref="T:System.Array" />, starting at a particular <see cref="T:System.Array" /> index.
+             </summary>
+             <param name="array">The one-dimensional <see cref="T:System.Array" /> that is the destination of the elements copied from <see cref="T:System.Collections.Generic.ICollection`1" />. The <see cref="T:System.Array" /> must have zero-based indexing.
+             </param><param name="arrayIndex">The zero-based index in <paramref name="array" /> at which copying begins.
+             </param>
+             <exception cref="T:System.ArgumentNullException"><paramref name="array" /> is null.</exception>
+             <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="arrayIndex" /> is less than 0.</exception>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.ObservableDictionary`2.GetEnumerator">
+             <summary>
+             Returns an enumerator that iterates through the collection.
+             </summary>
+             <returns>
+             A <see cref="T:System.Collections.Generic.IEnumerator`1" /> that can be used to iterate through the collection.
+             </returns>
+             <filterpriority>1</filterpriority>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.ObservableDictionary`2.Remove(`0)">
+             <summary>
+             Removes the element with the specified key from the <see cref="T:System.Collections.Generic.IDictionary`2" />.
+             </summary>
+             <returns>
+             true if the element is successfully removed; otherwise, false.  This method also returns false if <paramref name="key" /> was not found in the original <see cref="T:System.Collections.Generic.IDictionary`2" />.
+             </returns>
+             <param name="key">The key of the element to remove.
+             </param><exception cref="T:System.ArgumentNullException"><paramref name="key" /> is null.
+             </exception><exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.IDictionary`2" /> is read-only.
+             </exception>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.ObservableDictionary`2.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{TKey,TValue}}#Remove(System.Collections.Generic.KeyValuePair{`0,`1})">
+             <summary>
+             Removes the first occurrence of a specific object from the <see cref="T:System.Collections.Generic.ICollection`1" />.
+             </summary>
+             <returns>
+             true if <paramref name="item" /> was successfully removed from the <see cref="T:System.Collections.Generic.ICollection`1" />; otherwise, false. This method also returns false if <paramref name="item" /> is not found in the original <see cref="T:System.Collections.Generic.ICollection`1" />.
+             </returns>
+             <param name="item">The object to remove from the <see cref="T:System.Collections.Generic.ICollection`1" />.
+             </param><exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1" /> is read-only.
+             </exception>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.ObservableDictionary`2.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{TKey,TValue}}#Contains(System.Collections.Generic.KeyValuePair{`0,`1})">
+             <summary>
+             Determines whether the <see cref="T:System.Collections.Generic.ICollection`1" /> contains a specific value.
+             </summary>
+             <returns>
+             true if <paramref name="item" /> is found in the <see cref="T:System.Collections.Generic.ICollection`1" />; otherwise, false.
+             </returns>
+             <param name="item">The object to locate in the <see cref="T:System.Collections.Generic.ICollection`1" />.
+                             </param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.ObservableDictionary`2.System#Collections#IEnumerable#GetEnumerator">
+             <summary>
+             Returns an enumerator that iterates through a collection.
+             </summary>
+             <returns>
+             An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+             </returns>
+             <filterpriority>2</filterpriority>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.ObservableDictionary`2.TryGetValue(`0,`1@)">
+             <summary>
+             Gets the value associated with the specified key.
+             </summary>
+             <returns>
+             true if the object that implements <see cref="T:System.Collections.Generic.IDictionary`2" /> contains an element with the specified key; otherwise, false.
+             </returns>
+             <param name="key">The key whose value to get.
+             </param><param name="value">When this method returns, the value associated with the specified key, if the key is found; otherwise, the default value for the type of the <paramref name="value" /> parameter. This parameter is passed uninitialized.
+             </param><exception cref="T:System.ArgumentNullException"><paramref name="key" /> is null.
+             </exception>
+            </member>
+        <member name="P:XamarinUniversity.Infrastructure.ObservableDictionary`2.Count">
+             <summary>
+             Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1" />.
+             </summary>
+             <returns>
+             The number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1" />.
+             </returns>
+            </member>
+        <member name="P:XamarinUniversity.Infrastructure.ObservableDictionary`2.IsReadOnly">
+             <summary>
+             Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1" /> is read-only.
+             </summary>
+             <returns>
+             true if the <see cref="T:System.Collections.Generic.ICollection`1" /> is read-only; otherwise, false.
+             </returns>
+            </member>
+        <member name="P:XamarinUniversity.Infrastructure.ObservableDictionary`2.Item(`0)">
+             <summary>
+             Gets or sets the element with the specified key.
+             </summary>
+             <returns>
+             The element with the specified key.
+             </returns>
+             <param name="key">The key of the element to get or set.
+             </param><exception cref="T:System.ArgumentNullException"><paramref name="key" /> is null.
+             </exception><exception cref="T:System.Collections.Generic.KeyNotFoundException">The property is retrieved and <paramref name="key" /> is not found.
+             </exception><exception cref="T:System.NotSupportedException">The property is set and the <see cref="T:System.Collections.Generic.IDictionary`2" /> is read-only.
+             </exception>
+            </member>
+        <member name="P:XamarinUniversity.Infrastructure.ObservableDictionary`2.Keys">
+             <summary>
+             Gets an <see cref="T:System.Collections.Generic.ICollection`1" /> containing the keys of the <see cref="T:System.Collections.Generic.IDictionary`2" />.
+             </summary>
+             <returns>
+             An <see cref="T:System.Collections.Generic.ICollection`1" /> containing the keys of the object that implements <see cref="T:System.Collections.Generic.IDictionary`2" />.
+             </returns>
+            </member>
+        <member name="P:XamarinUniversity.Infrastructure.ObservableDictionary`2.Values">
+             <summary>
+             Gets an <see cref="T:System.Collections.Generic.ICollection`1" /> containing the values in the <see cref="T:System.Collections.Generic.IDictionary`2" />.
+             </summary>
+             <returns>
+             An <see cref="T:System.Collections.Generic.ICollection`1" /> containing the values in the object that implements <see cref="T:System.Collections.Generic.IDictionary`2" />.
+             </returns>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.ObservableDictionary`2.OnNotifyAdd(System.Collections.Generic.KeyValuePair{`0,`1})">
+             <summary>
+             This is used to notify insertions into the dictionary.
+             </summary>
+             <param name="item">Item</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.ObservableDictionary`2.OnNotifyRemove(System.Collections.Generic.KeyValuePair{`0,`1})">
+             <summary>
+             This is used to notify removals from the dictionary
+             </summary>
+             <param name="item">Item</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.ObservableDictionary`2.OnNotifyReplace(System.Collections.Generic.KeyValuePair{`0,`1},System.Collections.Generic.KeyValuePair{`0,`1})">
+             <summary>
+             This is used to notify replacements in the dictionary
+             </summary>
+             <param name="newItem">New item</param>
+             <param name="oldItem">Old item</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.ObservableDictionary`2.OnNotifyReset">
+             <summary>
+             This is used to notify that the dictionary was completely reset.
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.ObservableDictionary`2.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+             <summary>
+             Raises the <see cref="E:System.Collections.ObjectModel.ObservableCollection`1.CollectionChanged" /> event with the provided arguments.
+             </summary>
+             <param name="e">Arguments of the event being raised.</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.ObservableDictionary`2.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs)">
+             <summary>
+             Raises the property change notification
+             </summary>
+             <param name="e">Property event args.</param>
+            </member>
+        <member name="T:XamarinUniversity.Infrastructure.ObservableDictionary`2.MassUpdater">
+             <summary>
+             IDisposable class which turns off updating
+             </summary>
+            </member>
+        <member name="T:XamarinUniversity.Infrastructure.OptimizedObservableCollection`1">
+             <summary>
+             ObservableCollection implementation which supports 
+             turning off notifications for mass updates through 
+             the <see cref="M:XamarinUniversity.Infrastructure.OptimizedObservableCollection{`0}.BeginMassUpdate" /> method.
+             </summary>
+             <example>
+             <code>
+             var coll = new OptimizedObservableCollection&lt;string&gt;();
+             ...
+             using (BeginMassUpdate ()) {
+                foreach (var value in names)
+                   coll.Add (value);
+             }
+             </code>
+             </example>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.OptimizedObservableCollection`1.#ctor">
+             <summary> 
+             Init a new instance of the collection.
+             </summary> 
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.OptimizedObservableCollection`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+             <summary>
+             Initialize a new instance of the collection from an existing data set.
+             </summary>
+             <param name="collection">Collection.</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.OptimizedObservableCollection`1.BeginMassUpdate">
+             <summary>
+             This method turns off notifications until the returned object
+             is Disposed. At that point, the entire collection is invalidated.
+             </summary>
+             <returns>IDisposable</returns>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.OptimizedObservableCollection`1.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+             <summary>
+             Turn off the collection changed notification
+             </summary>
+             <param name="e">E.</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.OptimizedObservableCollection`1.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs)">
+             <summary>
+             Turn off the property changed notification
+             </summary>
+             <param name="e">E.</param>
+            </member>
+        <member name="T:XamarinUniversity.Infrastructure.OptimizedObservableCollection`1.MassUpdater">
+             <summary>
+             IDisposable class which turns off updating
+             </summary>
+            </member>
+        <member name="T:XamarinUniversity.Infrastructure.RefreshingCollection`1">
+             <summary>
+             Provides an ObservableCollection which is backed by an asynchronous "fill"
+             method. You can then "refresh" the data at any time and have the collection
+             make callbacks when starting and completing the refresh.
+             </summary>
+            </member>
+        <member name="P:XamarinUniversity.Infrastructure.RefreshingCollection`1.BeforeRefresh">
+             <summary>
+             This delegate is called BEFORE a refresh is initated
+             </summary>
+             <value>The before refresh.</value>
+            </member>
+        <member name="P:XamarinUniversity.Infrastructure.RefreshingCollection`1.AfterRefresh">
+             <summary>
+             This delegate is called AFTER a refresh completes and the contents are replaced.
+             </summary>
+             <value>The after refresh.</value>
+            </member>
+        <member name="P:XamarinUniversity.Infrastructure.RefreshingCollection`1.RefreshFailed">
+             <summary>
+             This delegate is called if a refresh throws an exception.
+             </summary>
+             <value>The refresh failed.</value>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.RefreshingCollection`1.#ctor(System.Func{System.Threading.Tasks.Task{System.Collections.Generic.IEnumerable{`0}}})">
+             <summary>
+             Create a new Refreshing Collection.
+             </summary>
+             <param name="refreshFunc">Method which returns the data for the collection</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.RefreshingCollection`1.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+             <summary>
+             Called when the collection is being changed; we turn this off during
+             full refresh events.
+             </summary>
+             <param name="e">E.</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.RefreshingCollection`1.RefreshAsync(System.Boolean)">
+             <summary>
+             Refreshes the data in the collection. The refresh method is invoked and
+             this method will replace all the data in the collection with the data coming
+             back from the refresh method.
+             </summary>
+             <returns>Awaitable task</returns>
+            </member>
+        <member name="T:XamarinUniversity.Infrastructure.CollectionExtensions">
+             <summary>
+             A set of <c>IList</c>, <c>IEnumerable</c>, and <c>ICollection</c> extension methods
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.CollectionExtensions.ToGroupedObservable``2(System.Collections.Generic.IEnumerable{System.Linq.IGrouping{``0,``1}})">
+             <summary>
+             Takes a LINQ GroupBy value and turns it into a set of GroupedObservableCollection objects.
+             </summary>
+             <returns>The grouped observable.</returns>
+             <param name="group">Group.</param>
+             <typeparam name="TKey">The 1st type parameter.</typeparam>
+             <typeparam name="TValue">The 2nd type parameter.</typeparam>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.CollectionExtensions.ToObservableCollection``1(System.Collections.Generic.IEnumerable{``0})">
+             <summary>
+             Returns an ObservableCollection from a set of enumerable items.
+             </summary>
+             <returns>The observable collection.</returns>
+             <param name="items">Items.</param>
+             <typeparam name="T">The 1st type parameter.</typeparam>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.CollectionExtensions.BubbleSort``1(System.Collections.Generic.IList{``0},System.Func{``0,``0,System.Int32},System.Boolean)">
+             <summary>
+             Perform a sort of the items in a collection. This is useful
+             if the underlying collection does not support sorting. 
+             </summary>
+             <param name="collection">Underlying collection to sort</param>
+             <param name="comparer">Comparer delegate</param>
+             <param name="reverse">True to reverse the collection</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.CollectionExtensions.BubbleSort(System.Collections.IList,System.Collections.IComparer,System.Boolean)">
+             <summary>
+             Perform a sort of the items in a collection. This is useful
+             if the underlying collection does not support sorting. Note that
+             the object type must be comparable.
+             </summary>
+             <param name="collection">Underlying collection to sort</param>
+             <param name="comparer">Comparer interface</param>
+             <param name="reverse">True to reverse the collection</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.CollectionExtensions.Compare``1(System.Collections.Generic.ICollection{``0},System.Collections.Generic.ICollection{``0},System.Boolean)">
+             <summary>
+             This is used to compare two collections.
+             </summary>
+             <typeparam name="T">Collection type</typeparam>
+             <param name="collection">Collection Source</param>
+             <param name="other">Collection to compare to</param>
+             <param name="sameOrderRequired">Require same-order elements (exact match)</param>
+             <returns></returns>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.CollectionExtensions.AddRange``1(System.Collections.Generic.ICollection{``0},System.Collections.Generic.IEnumerable{``0})">
+             <summary>
+             Add a range of IEnumerable collection to an existing Collection.
+             </summary>
+            <typeparam name="T">Type of collection</typeparam>
+            <param name="collection">Collection</param>
+             <param name="items">Items to add</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.CollectionExtensions.RemoveRange``1(System.Collections.Generic.ICollection{``0},System.Collections.Generic.IEnumerable{``0})">
+             <summary>
+             Removes a set of items from the collection.
+             </summary>
+             <param name="collection">Collection to remove from</param>
+             <param name="items">Items to remove from collection.</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.CollectionExtensions.IndexOf``1(System.Collections.Generic.IEnumerable{``0},System.Predicate{``0})">
+            <summary>
+             This method tests an enumerable sequence and returns the index of the first item that
+             passes the test.
+            </summary>
+            <typeparam name="T">Type of collection</typeparam>
+            <param name="collection">Collection</param>
+            <param name="test">Predicate test</param>
+            <returns>Index (zero based) of first element that passed test, -1 if none did</returns>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.CollectionExtensions.Swap``1(System.Collections.Generic.IList{``0},System.Int32,System.Int32)">
+             <summary>
+             Swap a value in the collection
+             </summary>
+             <typeparam name="T">Type of collection</typeparam>
+             <param name="collection">Source collection</param>
+             <param name="sourceIndex">Index</param>
+             <param name="destIndex">Dest index</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.CollectionExtensions.MoveRange``1(System.Collections.Generic.IList{``0},System.Int32,System.Int32,System.Int32)">
+             <summary>
+             This method moves a range of values in the collection
+             </summary>
+             <typeparam name="T">Type of collection</typeparam>
+             <param name="collection">Source collection</param>
+             <param name="startingIndex">Index</param>
+             <param name="count">Count of items</param>
+             <param name="destIndex">Dest index</param>
+            </member>
+        <member name="T:XamarinUniversity.Infrastructure.ExceptionExtensions">
+             <summary>
+             Extensions for the global Exception type
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.ExceptionExtensions.Flatten(System.Exception,System.String,System.Boolean)">
+             <summary>
+             Flatten the exception and inner exception data.
+             </summary>
+             <param name="ex">Exception</param>
+             <param name="header">Any string prefix to add</param>
+             <param name="includeStackTrace">True to include stack trace at end</param>
+             <returns>String with Message and all InnerException messages appended together</returns>
+            </member>
+        <member name="T:XamarinUniversity.Infrastructure.TaskExtensions">
+             <summary>
+             Extensions for the System.Threading.Tasks.Task type.
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.TaskExtensions.IgnoreResult(System.Threading.Tasks.Task,System.Action{System.Exception},System.String,System.Int32)">
+             <summary>
+             This method can be used to ignore the result of a Task without
+             losing the ability to throw the exception if the task fails.
+             </summary>
+             <example>
+             <code>
+                 Task.Run(() =&gt; ...).IgnoreResult();
+             </code>
+             </example>
+             <param name="task">Task to ignore</param>
+             <param name="faultHandler">Optional handler for the exception; if null then method throws on UI thread.</param>
+             <param name="member">Caller name</param>
+             <param name="lineNumber">Line number.</param>
+            </member>
+        <member name="T:XamarinUniversity.Infrastructure.IAsyncDelegateCommand">
+             <summary>
+             Extension of ICommand which exposes a raise execute handler and async support.
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.IAsyncDelegateCommand.ExecuteAsync(System.Object)">
+             <summary>
+             Executes the command and returns the async Task.
+             </summary>
+             <returns>async result</returns>
+             <param name="parameter">Parameter.</param>
+            </member>
+        <member name="T:XamarinUniversity.Infrastructure.IAsyncDelegateCommand`1">
+             <summary>
+             Extension of ICommand which exposes a raise execute handler.
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.IAsyncDelegateCommand`1.ExecuteAsync(`0)">
+             <summary>
+             Executes the command and returns the async Task.
+             </summary>
+             <returns>async result</returns>
+             <param name="parameter">Parameter.</param>        
+            </member>
+        <member name="T:XamarinUniversity.Infrastructure.IDelegateCommand">
+             <summary>
+             Extension of ICommand which exposes a raise execute handler.
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.IDelegateCommand.RaiseCanExecuteChanged">
+             <summary>
+             Call this to raise the CanExecuteChanged event.
+             </summary>
+            </member>
+        <member name="T:XamarinUniversity.Interfaces.IDependencyService">
+             <summary>
+             Interface to wrap a ServiceLocator
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Interfaces.IDependencyService.Register``1">
+             <summary>
+             Register a specific type as an abstraction
+             </summary>
+             <typeparam name="T">The class to register</typeparam>
+            </member>
+        <member name="M:XamarinUniversity.Interfaces.IDependencyService.Register``2">
+             <summary>
+             Register a specific abstraction associated to a type.
+             </summary>
+             <typeparam name="T">The abstraction</typeparam>
+             <typeparam name="TImpl">The implementation</typeparam>
+            </member>
+        <member name="M:XamarinUniversity.Interfaces.IDependencyService.Register``1(``0)">
+             <summary>
+             Register a specific instance of an abstraction.
+             </summary>
+             <typeparam name="T">Abstraction type</typeparam>
+             <param name="impl">Instance to use</param>
+            </member>
+        <member name="M:XamarinUniversity.Interfaces.IDependencyService.Get``1">
+             <summary>
+             Retrieve a specific implementation from the locator.
+             </summary>
+             <typeparam name="T">Type to look for</typeparam>
+            </member>
+        <member name="T:XamarinUniversity.Interfaces.IMessageVisualizerService">
+             <summary>
+             Interface to display UI "MessageBox" style prompts.
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Interfaces.IMessageVisualizerService.ShowMessage(System.String,System.String,System.String,System.String)">
+             <summary>
+             Show a message on the UI
+             </summary>
+             <returns>Async result (true/false)</returns>
+             <param name="title">Title</param>
+             <param name="message">Message</param>
+             <param name="ok">Text for OK button</param>
+             <param name="cancel">Optional text for Cancel button</param>
+            </member>
+        <member name="T:XamarinUniversity.Interfaces.INavigationService">
+             <summary>
+             Interface to manage navigation in the application.
+             </summary>
+            </member>
+        <member name="E:XamarinUniversity.Interfaces.INavigationService.Navigated">
+             <summary>
+             Event raised when NavigateAsync is used.
+             </summary>
+            </member>
+        <member name="E:XamarinUniversity.Interfaces.INavigationService.NavigatedBack">
+             <summary>
+             Event raised when a GoBackAsync operation occurs.
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Interfaces.INavigationService.NavigateAsync(System.Object,System.Object)">
+             <summary>
+             Navigate to a page using the known key.
+             </summary>
+             <returns>The async.</returns>
+             <param name="pageKey">Page key.</param>
+             <param name="viewModel">View model.</param>
+            </member>
+        <member name="P:XamarinUniversity.Interfaces.INavigationService.CanGoBack">
+             <summary>
+             Returns true/false whether we can go backwards on the Nav Stack.
+             </summary>
+             <value><c>true</c> if can go back; otherwise, <c>false</c>.</value>
+            </member>
+        <member name="M:XamarinUniversity.Interfaces.INavigationService.GoBackAsync">
+             <summary>
+             Pops the last page off the stack and navigates to it.
+             </summary>
+             <returns>Async response</returns>
+            </member>
+        <member name="M:XamarinUniversity.Interfaces.INavigationService.PushModalAsync(System.Object,System.Object)">
+             <summary>
+             Push a page onto the modal stack.
+             </summary>
+             <returns>Async response</returns>
+             <param name="pageKey">Page key.</param>
+             <param name="viewModel">View model.</param>
+            </member>
+        <member name="M:XamarinUniversity.Interfaces.INavigationService.PopModalAsync">
+             <summary>
+             Pops the last page off the modal stack
+             </summary>
+             <returns>Async response</returns>
+            </member>
+        <member name="T:XamarinUniversity.Infrastructure.AsyncDelegateCommand">
+             <summary>
+             A base ICommand implementation that supports async/await.
+             </summary>
+            </member>
+        <member name="F:XamarinUniversity.Infrastructure.AsyncDelegateCommand.canExecute">
+             <summary>
+             Delegate to call when CanExecute method is called.
+             </summary>
+            </member>
+        <member name="F:XamarinUniversity.Infrastructure.AsyncDelegateCommand.asyncExecute">
+             <summary>
+             Delegate to call when Execute is called.
+             </summary>
+            </member>
+        <member name="E:XamarinUniversity.Infrastructure.AsyncDelegateCommand.CanExecuteChanged">
+             <summary>
+             Event which is raised when the state of this command has changed.
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.AsyncDelegateCommand.#ctor(System.Func{System.Threading.Tasks.Task})">
+             <summary>
+             Creates a new async delegate command.
+             </summary>
+             <param name="execute">Method to call when command is executed.</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.AsyncDelegateCommand.#ctor(System.Func{System.Object,System.Threading.Tasks.Task})">
+             <summary>
+             Creates a new async delegate command.
+             </summary>
+             <param name="execute">Method to call when command is executed.</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.AsyncDelegateCommand.#ctor(System.Func{System.Threading.Tasks.Task},System.Func{System.Boolean})">
+             <summary>
+             Creates a new async delegate command.
+             </summary>
+             <param name="execute">Method to call when command is executed.</param>
+             <param name="canExecute">Method to call to determine whether command is valid.</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.AsyncDelegateCommand.#ctor(System.Func{System.Object,System.Threading.Tasks.Task},System.Predicate{System.Object})">
+             <summary>
+             Creates a new async delegate command.
+             </summary>
+             <param name="asyncExecute">Method to call when command is executed.</param>
+             <param name="canExecute">Method to call to determine whether command is valid.</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.AsyncDelegateCommand.RaiseCanExecuteChanged">
+             <summary>
+             Raise the CanExecuteChanged handler.
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.AsyncDelegateCommand.CanExecute(System.Object)">
+             <summary>
+             Returns whether the command is possible right now.
+             </summary>
+             <returns><c>true</c>, if execute was caned, <c>false</c> otherwise.</returns>
+             <param name="parameter">Parameter.</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.AsyncDelegateCommand.Execute(System.Object)">
+             <summary>
+             Executes the command.
+             </summary>
+             <param name="parameter">Parameter.</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.AsyncDelegateCommand.ExecuteAsync(System.Object)">
+             <summary>
+             Executes the command and returns an awaitable task.
+             </summary>
+             <returns>The async.</returns>
+             <param name="parameter">Parameter.</param>
+            </member>
+        <member name="T:XamarinUniversity.Infrastructure.AsyncDelegateCommand`1">
+             <summary>
+             A generic ICommand implementation that supports async/await.
+             </summary>
+            </member>
+        <member name="F:XamarinUniversity.Infrastructure.AsyncDelegateCommand`1.canExecute">
+             <summary>
+             Delegate to call when CanExecute method is called.
+             </summary>
+            </member>
+        <member name="F:XamarinUniversity.Infrastructure.AsyncDelegateCommand`1.asyncExecute">
+             <summary>
+             Delegate to call when Execute method is called.
+             </summary>
+            </member>
+        <member name="E:XamarinUniversity.Infrastructure.AsyncDelegateCommand`1.CanExecuteChanged">
+             <summary>
+             Event to raise when the state of the command has changed.
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.AsyncDelegateCommand`1.#ctor(System.Func{`0,System.Threading.Tasks.Task})">
+             <summary>
+             Creates a new async delegate command.
+             </summary>
+             <param name="execute">Method to call when command is executed.</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.AsyncDelegateCommand`1.#ctor(System.Func{`0,System.Threading.Tasks.Task},System.Predicate{`0})">
+             <summary>
+             Creates a new async delegate command.
+             </summary>
+             <param name="asyncExecute">Method to call when command is executed.</param>
+             <param name="canExecute">Method to determine whether command is valid.</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.AsyncDelegateCommand`1.RaiseCanExecuteChanged">
+             <summary>
+             Raises the CanExecuteChanged event.
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.AsyncDelegateCommand`1.CanExecute(System.Object)">
+             <summary>
+             Returns whether the command is valid at this moment.
+             </summary>
+             <returns><c>true</c>, if execute was caned, <c>false</c> otherwise.</returns>
+             <param name="parameter">Parameter.</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.AsyncDelegateCommand`1.Execute(System.Object)">
+             <summary>
+             Executes the command.
+             </summary>
+             <param name="parameter">Parameter.</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.AsyncDelegateCommand`1.XamarinUniversity#Infrastructure#IAsyncDelegateCommand#ExecuteAsync(System.Object)">
+             <summary>
+             Executes the command.
+             </summary>
+             <param name="parameter">Parameter.</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.AsyncDelegateCommand`1.ExecuteAsync(`0)">
+             <summary>
+             Executes the command.
+             </summary>
+             <param name="parameter">Parameter.</param>
+            </member>
+        <member name="T:XamarinUniversity.Infrastructure.DelegateCommand">
+             <summary>
+             Implementation of ICommand using delegates.
+             This is preferred over Command in Forms so it can be mocked/replaced
+             in the ViewModel and have your VM not take a dependency on Forms.
+             </summary>
+            </member>
+        <member name="F:XamarinUniversity.Infrastructure.DelegateCommand.command">
+             <summary>
+             Delegate to call when the Execute method is called.
+             </summary>
+            </member>
+        <member name="F:XamarinUniversity.Infrastructure.DelegateCommand.canExecute">
+             <summary>
+             Delegate to call when the CanExecute method is called.
+             </summary>
+            </member>
+        <member name="E:XamarinUniversity.Infrastructure.DelegateCommand.CanExecuteChanged">
+             <summary>
+             Event to raise when the state of the command has changed.
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.DelegateCommand.#ctor(System.Action{System.Object})">
+             <summary>
+             Creates a new DelegateCommand.
+             </summary>
+             <param name="command">Delegate to call for command</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.DelegateCommand.#ctor(System.Action)">
+             <summary>
+             Creates a new DelegateCommand.
+             </summary>
+             <param name="command">Delegate to call for command</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.DelegateCommand.#ctor(System.Action,System.Func{System.Boolean})">
+             <summary>
+             Creates a new DelegateCommand.
+             </summary>
+             <param name="command">Delegate to call for command</param>
+             <param name="test">Delegate to call for CanExecute</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.DelegateCommand.#ctor(System.Action{System.Object},System.Func{System.Object,System.Boolean})">
+             <summary>
+             Creates a new DelegateCommand.
+             </summary>
+             <param name="command">Delegate to call for command</param>
+             <param name="test">Delegate to call for CanExecute</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.DelegateCommand.RaiseCanExecuteChanged">
+             <summary>
+             Raises the CanExecuteChanged event.
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.DelegateCommand.CanExecute(System.Object)">
+             <summary>
+             Checks to see if the command is valid.
+             </summary>
+             <returns><c>true</c>, if execute was caned, <c>false</c> otherwise.</returns>
+             <param name="parameter">Parameter.</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.DelegateCommand.Execute(System.Object)">
+             <summary>
+             Executes the command.
+             </summary>
+             <param name="parameter">Parameter.</param>
+            </member>
+        <member name="T:XamarinUniversity.Infrastructure.DelegateCommand`1">
+             <summary>
+             Generic form of the DelegateCommand with a parameter.
+             </summary>
+            </member>
+        <member name="F:XamarinUniversity.Infrastructure.DelegateCommand`1.command">
+             <summary>
+             Delegate to call when the Execute method is called.
+             </summary>
+            </member>
+        <member name="F:XamarinUniversity.Infrastructure.DelegateCommand`1.canExecute">
+             <summary>
+             Delegate to call when the CanExecute method is called.
+             </summary>
+            </member>
+        <member name="E:XamarinUniversity.Infrastructure.DelegateCommand`1.CanExecuteChanged">
+             <summary>
+             Event to raise when the state of the command has changed.
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.DelegateCommand`1.#ctor(System.Action{`0})">
+             <summary>
+             Creates a new Delegate command
+             </summary>
+             <param name="command">Delegate to invoke</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.DelegateCommand`1.#ctor(System.Action{`0},System.Func{`0,System.Boolean})">
+             <summary>
+             Creates a new Delegate command
+             </summary>
+             <param name="command">Delegate to invoke</param>
+             <param name="test">Delegate for CanExecute</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.DelegateCommand`1.RaiseCanExecuteChanged">
+             <summary>
+             Raises the CanExecuteChanged event.
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.DelegateCommand`1.CanExecute(System.Object)">
+             <summary>
+             Returns whether the command is valid.
+             </summary>
+             <returns><c>true</c>, if execute was caned, <c>false</c> otherwise.</returns>
+             <param name="parameter">Parameter.</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.DelegateCommand`1.Execute(System.Object)">
+             <summary>
+             Executes the command.
+             </summary>
+             <param name="parameter">Parameter.</param>
+            </member>
+        <member name="T:XamarinUniversity.PropertyObserver`1">
+             <summary>
+             Monitors the PropertyChanged event of an object that implements INotifyPropertyChanged,
+             and executes callback methods (i.e. handlers) registered for properties of that object
+             using a fluid syntax.
+             </summary>
+             <remarks>
+             The idea for this class was taken from a similar implementation in WPF.
+             </remarks>
+             <typeparam name="T">The type of object to monitor for property changes.</typeparam>
+            </member>
+        <member name="M:XamarinUniversity.PropertyObserver`1.#ctor(`0)">
+             <summary>
+             Initializes a new instance of PropertyObserver, which
+             observes the 'propertySource' object for property changes.
+             </summary>
+             <param name="propertySource">The object to monitor for property changes.</param>
+            </member>
+        <member name="P:XamarinUniversity.PropertyObserver`1.Source">
+             <summary>
+             Source object this observer is monitoring.
+             </summary>
+             <value>The source.</value>
+            </member>
+        <member name="M:XamarinUniversity.PropertyObserver`1.OnSourcePropertyChanged(System.Object,System.ComponentModel.PropertyChangedEventArgs)">
+             <summary>
+             Called on each PropertyChange notification, forwards to handlers.
+             </summary>
+             <param name="sender">Sender</param>
+             <param name="e">PropertyChangedEventArgs</param>
+            </member>
+        <member name="M:XamarinUniversity.PropertyObserver`1.RegisterHandler(System.Linq.Expressions.Expression{System.Func{`0,System.Object}},System.Action{`0})">
+             <summary>
+             Registers a callback to be invoked when the PropertyChanged event has been raised for the specified property.
+             </summary>
+             <param name="expression">A lambda expression like 'n =&gt; n.PropertyName'.</param>
+             <param name="handler">The callback to invoke when the property has changed.</param>
+             <returns>The object on which this method was invoked, to allow for multiple invocations chained together.</returns>
+            </member>
+        <member name="M:XamarinUniversity.PropertyObserver`1.UnregisterHandler(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+             <summary>
+             Removes the callback associated with the specified property.
+             </summary>
+             <param name="expression">A lambda expression like 'n =&gt; n.PropertyName'.</param>
+             <returns>The object on which this method was invoked, to allow for multiple invocations chained together.</returns>
+            </member>
+        <member name="M:XamarinUniversity.PropertyObserver`1.GetPropertyName(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+             <summary>
+             Retrieves the property name for a given expression.
+             </summary>
+             <param name="expression">Expression to evaluate</param>
+             <returns>Property name</returns>
+            </member>
+        <member name="M:XamarinUniversity.PropertyObserver`1.Dispose">
+             <summary>
+             Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+             </summary>
+            </member>
+        <member name="T:XamarinUniversity.Infrastructure.SimpleViewModel">
+             <summary>
+             This is a simple base class for MVVM.
+             </summary>
+            </member>
+        <member name="E:XamarinUniversity.Infrastructure.SimpleViewModel.PropertyChanged">
+             <summary>
+             Event to raise when a property is changed.
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.SimpleViewModel.RaiseAllPropertiesChanged">
+             <summary>
+             Inform any bindings that ALL property values must be read.
+             </summary>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.SimpleViewModel.RaisePropertyChanged``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+             <summary>
+             Raises a specific property change event using an expression.
+             </summary>
+             <param name="propExpr">Property expr.</param>
+             <typeparam name="T">The 1st type parameter.</typeparam>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.SimpleViewModel.RaisePropertyChanged(System.String)">
+             <summary>
+             Raises a specific property change event using a string for the property name.
+             </summary>
+             <param name="propertyName">Property name.</param>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.SimpleViewModel.SetPropertyValue``1(``0@,``0,System.Linq.Expressions.Expression{System.Func{``0}})">
+             <summary>
+             Changes a field's value and raises property change notifications.
+             </summary>
+             <returns><c>true</c>, if property value was set, <c>false</c> otherwise.</returns>
+             <param name="storageField">Storage field.</param>
+             <param name="newValue">New value.</param>
+             <param name="propExpr">Property expr.</param>
+             <typeparam name="T">The 1st type parameter.</typeparam>
+            </member>
+        <member name="M:XamarinUniversity.Infrastructure.SimpleViewModel.SetPropertyValue``1(``0@,``0,System.String)">
+             <summary>
+             Changes a field's value and raises property change notifications.
+             </summary>
+             <returns><c>true</c>, if property value was set, <c>false</c> otherwise.</returns>
+             <param name="storageField">Storage field.</param>
+             <param name="newValue">New value.</param>
+             <param name="propertyName">Property name.</param>
+             <typeparam name="T">The 1st type parameter.</typeparam>
+            </member>
+    </members>
+</doc>

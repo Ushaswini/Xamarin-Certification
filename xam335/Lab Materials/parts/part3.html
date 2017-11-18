@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+    <title>Create a custom control</title>
+    <link rel="stylesheet" type="text/css" href="./res/styles/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./res/styles/prettify.css" />
+    <link rel="stylesheet" type="text/css" href="./res/styles/styles.css">
+</head>
+
+<body>
+    <!-- Use the same title as the StartHere -->
+    <header>Xamarin.Forms Renderers</header>
+
+    <section id="main">
+
+        <h1 id="page-title"></h1>
+
+        <h2>Duration</h2>
+        <p>5 minutes</p>
+
+        <div class="hintblock">
+			<strong>Tip:</strong> If you are doing this exercise live in a session, make sure to make good use of the instructor,
+			they are online to answer any questions you have!
+		</div>
+
+        <h2>Goals</h2>
+
+        <p>
+            The primary goal of this lab is to define a custom element for a drawing surface in our shared Xamarin.Forms code.
+            <br><br>
+            This exercise includes steps for all platforms supported by Xamarin.Forms. 
+            You're not required to complete the steps for every platform but it's recommend you run the exercises on at least 2.
+        </p>
+
+        <h2>Required assets</h2>
+        <p>
+            This exercise is a continuation of the previous exercise. You can use your existing solution or start from the <b>Completed</b> solution in the <b>Part 02 Resources</b> folder.
+            The provided <strong>Part 03 Resources</strong> folder contains a subfolder named <strong>Completed</strong> with a solution you can use to check your work. 
+            Please make sure you have this folder before you begin.
+        </p>
+
+        <!-- Give them a challenge here, high-level steps of what we want them to do
+             so they can use this instead of the step-by-step (baby steps) included below -->
+        <h2>Challenge</h2>
+        <p>
+            <ol>
+                <li>In the <b>XFDraw</b> shared project, create a new class named <b>SketchView</b> that derives from <b>View</b>.</li>
+                <li>Add a bindable color property named <b>InkColor</b>.</li>
+                <li>Open <b>MainPage.xaml.cs</b> and add a <b>SketchView</b> to <b>mainLayout</b>.</li>
+                <li>Assign a color to the <b>InkColor</b> property.</li>
+            </ol>
+        </p>
+
+
+        <!-- Steps -->
+        <h1>Steps</h1>
+
+        <h2>Create a custom element</h2>
+        <ol>
+            <li>In the <b>XFDraw</b> shared project, create a new class named <b>SketchView</b> that derives from <b>View</b>.</li>
+            <li>Create a <code>BindableProperty</code> named <b>InkColorProperty</b>. Set the <b>propertyName</b> as "InkColor", the return type as <code>Color</code> and the declaring type as the new element - <b>SketchView</b>.</li>
+            <li>Create <code>Color</code> property named <b>InkColor</b> for the bindable property. Call the <code>GetValue</code> and <code>SetValue</code> methods, passing in <b>InkColorProperty</b>, in the getter/setter.</li>
+<p><a href="#" onclick="toggleCode(this,'SketchView');return false;" class="uiitem">Show Code</a>
+<div id="SketchView" style="display:none;">
+<pre class="prettyprint">
+class SketchView : View
+{
+    public static readonly BindableProperty InkColorProperty = BindableProperty.Create("InkColor", typeof(Color), typeof(SketchView), Color.Blue);
+
+    public Color InkColor
+    {
+        get { return (Color)GetValue(InkColorProperty); }
+        set { SetValue(InkColorProperty, value); }
+    }
+}
+</pre></div></p>
+        </ol>
+
+        <h2>Consume the custom element</h2>
+        <p>We'll add the custom element to our visual content page. However, we haven't yet added any platform-specific rendering code so the view will be blank.
+        <ol>
+            <li>Open <b>MainPage.xaml</b> in the shared project.</li>
+            <li>Add a <code>SketchView</code> to the <b>mainLayout</b> <code>Grid</code>. You can use the same xmlns you defined for the hyperlink label.</li>
+            <li>Give it a name of <b>sketchView</b> so we can reach the control in the code-behind.</b></li>
+            <li>Set the <code>HorizontalOptions</code> and <code>VerticalOptions</code> to <code>FillAndExpand</code>.</li>
+            <li>Set the <code>InkColor</code> property to a default color, the code below uses green.</li>
+<p><a href="#" onclick="toggleCode(this,'xaml');return false;" class="uiitem">Show Code</a>
+<div id="xaml" style="display:none;">
+<pre class="prettyprint">
+&lt;local:SketchView x:Name="sketchView" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" InkColor="Green" />
+</pre></div></p>
+        </ol>
+</pre></div></p>
+        </ol>
+
+        <h1>Summary</h1>
+        <p>
+            In this exercise, you created a custom element in Xamarin.Forms and added a bindable property to the element.
+        </p>
+        <div class="align-right">
+            <a href="../Start%20Here.html">Go Back</a>
+        </div>
+    </section>
+
+    <script src="./res/js/jquery.min.js"></script>
+    <script src="./res/js/prettify.js"></script>
+    <script src="./res/js/script.js"></script>
+
+    <footer>Copyright (C) 2017 Xamarin</footer>
+</body>
+</html>

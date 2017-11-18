@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+    <title>Exercise 2: Add a header and footer to the ListView</title>
+    <link rel="stylesheet" type="text/css" href="./res/styles/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./res/styles/prettify.css" />
+    <link rel="stylesheet" type="text/css" href="./res/styles/styles.css">
+</head>
+
+<body>
+    <!-- Use the same title as the StartHere -->
+    <header>Customizing the ListView in Xamarin.Forms</header>
+
+    <section id="main">
+        <h1 id="page-title"></h1>
+        <h2>Duration</h2>
+        <p>10 minutes</p>
+
+        <h2>Goals</h2>
+        <p>
+            This exercise will add a new header and footer definition to our <code>ListView</code>.
+        </p>
+     
+        <h2>Required Assets</h2>
+        <p>
+        There is a completed version of this exercise in the <b>Part 02 Resources</b> folder for you to compare your work against.
+        </p>
+
+        <h2>Challenge</h2>
+        <p>
+            This exercise continues on from the prior exercise and adds a new Header and Footer to the top and bottom of the <code>ListView</code>.
+        </p>
+        
+        <img src="./res/images/lab2-headers.png" />
+        
+        <p>Here are the steps you will go through:</p>
+        <ol class="indent-large">
+            <li>
+                Set the <code>Header</code> property to a <code>ContentView</code> containing a <code>Label</code> to display the static text "The Simpsons".
+            </li>
+            <li>
+                Data bind the <code>Footer</code> property to the number of contacts in our collection. To do this, we will set the <code>SimpsonFactory.Characters</code> collection as the <code>BindingContext</code> in our code.
+            </li>
+            <li>
+                Add a <code>FooterTemplate</code> to display the count of items at the end of the <code>ListView</code>.
+            </li>
+        </ol>
+        
+        <p>
+        Try to complete the exercise using the above screen shot and instructions, and then use the detailed information below if you get stuck or need some additional information to complete the step.
+        </p>
+        
+        <h1>Steps</h1>
+        <h2>Add the Header</h2>
+        <p>
+            In this first step, we will add a static header to the top of the <code>ListView</code>.
+        </p>
+        <ol>
+            <li>
+                Open the <strong>AllContacts.xaml</strong> markup file and locate the <code>ListView</code>.
+            </li>
+            
+            <li>
+                Set the <code>Header</code> property to the value "The Simpsons".
+            </li>
+        </ol>
+
+<p><a href="#" onclick="toggleCode(this,'header1');return false;" class="uiitem">Show Code</a>
+<div class="indent-medium" id="header1" style="display:none;">
+<pre class="prettyprint">
+&lt;ListView x:Name="allContacts" ...
+        <span class="highlight">Header="The Simpsons"</span>>
+</pre></div>
+        </p>        
+        <ol start="3">
+            <li>
+                Run the application and notice the text is displayed in a regular-sized font at the top of the control.
+            </li>
+            
+            <li>
+                Stop the application and remove your property setter; let's replace it with something a little more fancy.
+            </li>
+            
+            <li>
+                Set the <code>Header</code> property using the following code:
+            </li>
+        </ol>
+
+<pre class="prettyprint codeblock">
+&lt;ListView.Header>
+    &lt;ContentView Padding="0,5" BackgroundColor="#3498db">
+        &lt;Label FontSize="Large" TextColor="White"
+               Text="The Simpsons" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+    &lt;/ContentView>
+&lt;/ListView.Header>
+</pre>
+
+    <ol start="6">
+        <li>
+            Run the application to see the difference. This makes the font larger, adds a filled background behind the text and puts some padding between the header and the first item in the <code>ListView</code>.
+        </li>
+    </ol>
+
+    <h2>Add the Footer</h2>
+        <p>
+            Next, let's add a dynamic footer to the bottom of the <code>ListView</code>. To make the # of items in the collection easier to get to, we will set the collection to be our <code>BindingContext</code>.
+        </p>
+        <ol>
+            <li>
+                Open the <strong>AllContacts.xaml.cs</strong> code file and locate the constructor where we are currently setting the <code>ItemSource</code> property on the <code>ListView</code>.
+            </li>
+            
+            <li>
+                Remove that line of code and replace it with a line that sets the <code>BindingContext</code> for the page to the collection instead.
+            </li>
+        </ol>
+
+
+<p><a href="#" onclick="toggleCode(this,'bindingContext');return false;" class="uiitem">Show Code</a>
+<div class="indent-medium" id="bindingContext" style="display:none;">
+<pre class="prettyprint">
+public AllContacts()
+{
+    InitializeComponent();
+    <span class="highlight">BindingContext = SimpsonFactory.Characters;</span>
+}
+</pre></div></p>
+        
+        <ol start="3">
+            <li>
+                Switch back to the XAML. Add a property setter on the <code>ListView</code> to set the <code>ItemsSource</code> to the <code>BindingContext</code> (<code>{Binding .}</code>).
+            </li>
+            <li>
+                Bind the <code>Footer</code> property to the <code>Count</code> property of our <code>BindingContext</code> - this will be the # of elements in the collection since it's an <code>IList</code>.
+            </li>
+        </ol>
+        
+<p><a href="#" onclick="toggleCode(this,'setContext');return false;" class="uiitem">Show Code</a>
+    <div class="indent-medium" id="setContext" style="display:none;">
+        <pre class="prettyprint">
+&lt;ListView x:Name="allContacts" 
+            <span class="highlight">ItemsSource="{Binding .}"</span>
+            IsPullToRefreshEnabled="True"
+            Refreshing="OnRefreshing"
+            ItemTapped="OnItemTapped"
+            ItemSelected="OnItemSelected"
+            RowHeight="80" 
+            <span class="highlight">Footer="{Binding Count}"</span>>
+</pre></div>
+</p>
+
+    <ol start="5">
+        <li>
+            Set the <code>FooterTemplate</code> property to a <code>DataTemplate</code> containing a:
+            <ul class="indent-none">
+                <li><code>ContentView</code> with it's <code>Padding</code> property set to "0,5"</li>
+                <li>
+                    Inside the <code>ContentView</code>, define a <code>Label</code> and data-bind the <code>Text</code> property to the <code>BindingContext</code> (the <code>Path</code> should be ".").
+                </li>
+                <li>
+                    Set the <code>VerticalTextAlignment</code> property to "Center" and the <code>HorizontalTextAlignment</code> property to "End" to right-justify the text.
+                </li>
+                <li>
+                    Set the <code>FontSize</code> to "Micro" to make it small.
+                </li>
+                <li>
+                    Add a <code>StringFormat</code> to the text property <code>Binding</code> to make the text read "xx contacts", where "XX" is the data bound count. See the code hint below for help on this.
+                </li>
+            </ul>
+        </li>
+        <li>
+            Run the application and scroll to the bottom to see the Footer template.
+        </li>
+    </ol>
+
+<p><a href="#" onclick="toggleCode(this,'footerTemplate');return false;" class="uiitem">Show Code</a>
+    <div class="indent-medium" id="footerTemplate" style="display:none;">
+        <pre class="prettyprint">
+&lt;ListView.FooterTemplate>
+    &lt;DataTemplate>
+        &lt;ContentView Padding="0,5">
+            &lt;Label FontSize="Micro"
+                   Text="{Binding ., StringFormat='{0} contacts'}" 
+                   VerticalTextAlignment="Center" HorizontalTextAlignment="End" />
+        &lt;/ContentView>
+    &lt;/DataTemplate>
+&lt;/ListView.FooterTemplate>
+</pre></div>
+</p>
+
+
+        <h1>Summary</h1>
+        <p>
+            In this exercise, we added a header and footer to our <code>ListView</code> using both a static value (on the header) and a dynamic value (on the footer).
+        </p>
+        <div class="align-right">
+            <a href="../Start%20Here.html">Go Back</a>
+        </div>
+    </section>
+
+    <script src="./res/js/jquery.min.js"></script>
+    <script src="./res/js/prettify.js"></script>
+    <script src="./res/js/script.js"></script>
+
+    <footer>Copyright (C) 2017 Xamarin</footer>
+</body>
+</html>
